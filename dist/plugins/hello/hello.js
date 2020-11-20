@@ -1,3 +1,3 @@
-export async function plugin(name) {
+export async function hello(name) {
     console.log("hello " + name);
 }

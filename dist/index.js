@@ -55,3 +55,57 @@ export const redevtools = {
         window.re = new ReDevTools();
     }
 };
+class ReDevToolsRegistry {
+    constructor() {
+        this.methods = {};
+    }
+    has(name) {
+        return this.methods[name] != null;
+    }
+    setMethod(name, method, original, instance) {
+        this.methods[name] = { name, method, instance, original };
+        if (["methods", "has", "setMethod", "callMethod"].indexOf(name) < 0)
+            this[name] = method.bind(instance);
+    }
+    callMethod(name, params) {
+        let m = this.methods[name];
+        try {
+            m.method.apply(m.instance, params);
+        }
+        catch (e) {
+        }
+    }
+}
+const registry = new ReDevToolsRegistry();
+window.re.functions = registry;
+/**
+ *
+ * @param hookName The name of your plugin hook
+ * @constructor
+ */
+export function Re(hookName) {
+    return function (target, propertyKey, descriptor) {
+        let originalMethod = descriptor.value;
+        descriptor.value = function (...args) {
+            if (!registry.has(propertyKey))
+                registry.setMethod(propertyKey, descriptor.value, originalMethod, this);
+            let hookData = {
+                functionName: propertyKey,
+                functionReference: descriptor.value,
+                arguments: args,
+                originalFunctionReference: originalMethod,
+                target: this,
+                when: 'before',
+                skipExecution: false
+            };
+            window.re[hookName](hookData);
+            if (hookData.skipExecution)
+                return;
+            let result = originalMethod.apply(this, args);
+            hookData.result = result;
+            hookData.when = 'after';
+            window.re[hookName](hookData);
+            return result;
+        };
+    };
+}

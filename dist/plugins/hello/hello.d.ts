@@ -1,1 +1,1 @@
-export declare function plugin(name: string): Promise<void>;
+export declare function hello(name: string): Promise<void>;

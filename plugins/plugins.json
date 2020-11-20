@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "name": "hello",
+      "url": "https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins/hello/hello.js",
+      "readme": "https://github.com/redevtools/redevtools/plugins/hello/README.md",
+      "snapshot": "https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins/hello/snapshot.gif"
+    }
+  ]
+}

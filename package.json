@@ -1,0 +1,16 @@
+{
+  "name": "redevtools",
+  "version": "1.0.13",
+  "description": "ReDevTools extends your browser devtools with custom plugins",
+  "main": "dist/index.js",
+  "homepage": "https://www.redevtools.com",
+  "repository": "https://github.com/redevtools/redevtools",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "tsc"
+  },
+  "keywords": [],
+  "author": "Buglink.com Team",
+  "license": "ISC"
+}

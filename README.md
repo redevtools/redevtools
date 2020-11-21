@@ -37,7 +37,7 @@ Some plugins are hooks into your source code class methods.
 To install a ReDevTools Hook add the following decorator:
 
 ```typescript
-@re("logMethod")
+@Re("logMethod")
 myMethod(args) {
 ...
 }

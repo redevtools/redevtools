@@ -71,7 +71,10 @@ const proxy = {
             await new Promise(r => setTimeout(r))
             f.plugin.loaded = true;
         }
-        return await window.re[f.plugin.name](args);
+        if (f.plugin.loaded)
+            return await window.re[f.plugin.name](args);
+        else
+            return "Could not load plugin"
     },
     get: function(f, name) {
         return `${f.plugin.name}: read description at ${f.plugin.readme}`
@@ -89,7 +92,7 @@ class ReDevTools {
     }
 
     async init() {
-        let defaultPlugins = await fetch("https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins/plugins.json").then(r => r.json())
+        let defaultPlugins = await fetch("https://cdn.jsdelivr.net/npm/redevtools/dist/plugins.json").then(r => r.json())
         console.log("defaultPlugins: ", defaultPlugins)
         for(let plugin of defaultPlugins.plugins){
             const f = new Function("name", 'console.log("Plugin not yet loaded. Please try again in few seconds")')

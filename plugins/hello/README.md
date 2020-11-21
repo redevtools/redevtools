@@ -1,18 +1,24 @@
 # A simple Hello World Plugin
 This is the 'hello world' plugin to show how simple it is to create plugins with **redevtools**
 
-Just export a function (preferably using the same name as the plugin):
+
+![Hello world plugin in cation](snapshot.gif)
+
 
 ```typescript
 /**
 * Author: Buglink.com Team
 * URL: https://github.com/redevtools/redevtools/plugins/hello 
 */
-export async function hello(name:string){
+(async (re) => {
+        async function hello(name: string) {
+            console.log("hello " + name)
+        }
+        re.hello = hello
+        re.hello.version = "1.0"
+    }
+)(window.re);
 
-    console.log("hello " + name)
-
-}
 ```
 
 Plugins are written in **TypeScript** or JavaScript.

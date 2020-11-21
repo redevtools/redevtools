@@ -3,9 +3,9 @@
   "plugins": [
     {
       "name": "hello",
-      "url": "https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/dist/plugins/hello/hello.js",
-      "readme": "https://github.com/redevtools/redevtools/tree/main/plugins/hello",
-      "snapshot": "https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins/hello/snapshot.gif"
+      "url": "https://cdn.jsdelivr.net/npm/redevtools/dist/plugins/hello/hello.js",
+      "readme": "https://github.com/redevtools/redevtools/plugins/hello/README.md",
+      "snapshot": "https://cdn.jsdelivr.net/npm/redevtools/dist/plugins/hello/snapshot.gif"
     }
   ]
 }

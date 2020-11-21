@@ -51,8 +51,9 @@ class ReDevTools {
 }
 export const redevtools = {
     init: () => {
-        ;
         window.re = new ReDevTools();
+        const registry = new ReDevToolsRegistry();
+        window.re.functions = registry;
     }
 };
 class ReDevToolsRegistry {
@@ -76,19 +77,17 @@ class ReDevToolsRegistry {
         }
     }
 }
-const registry = new ReDevToolsRegistry();
-window.re.functions = registry;
 /**
  *
  * @param hookName The name of your plugin hook
  * @constructor
  */
-export function Re(hookName) {
+export function re(hookName) {
     return function (target, propertyKey, descriptor) {
         let originalMethod = descriptor.value;
         descriptor.value = function (...args) {
-            if (!registry.has(propertyKey))
-                registry.setMethod(propertyKey, descriptor.value, originalMethod, this);
+            if (!window.re.registry.has(propertyKey))
+                window.re.registry.setMethod(propertyKey, descriptor.value, originalMethod, this);
             let hookData = {
                 functionName: propertyKey,
                 functionReference: descriptor.value,

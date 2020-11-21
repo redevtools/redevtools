@@ -5,6 +5,18 @@ const logw = log('#7c4400', '#ffd06f')
 const loge = log('#be0000', '#ffcaca')
 
 
+type JSONPrimitive = string | number | boolean | null;
+type JSONValue = JSONPrimitive | Json | JSONArray;
+type Json = { [member: string]: JSONValue | any };
+type JSONArray = JSONValue[];
+
+declare global {
+    interface Window {
+        re: (ReDevTools & Json);
+    }
+}
+
+
 const scriptPromise = (src: string) => {
     return new Promise((resolve, reject) => {
         let alreadyLoaded = document.querySelectorAll(`script[src="${src}"]`).length > 0
@@ -70,7 +82,9 @@ class ReDevTools {
 
 export const redevtools = {
     init: () => {
-        ;(window as any).re = new ReDevTools();
+        window.re = new ReDevTools() as any;
+        const registry = new ReDevToolsRegistry()
+        window.re.functions = registry
     }
 }
 
@@ -99,37 +113,35 @@ class ReDevToolsRegistry {
 
 }
 
-const registry = new ReDevToolsRegistry()
-;(window as any).re.functions = registry
 
 /**
  *
  * @param hookName The name of your plugin hook
  * @constructor
  */
-export function Re(hookName: string) {
+export function re(hookName: string) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         let originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {
-            if (!registry.has(propertyKey))
-                registry.setMethod(propertyKey, descriptor.value, originalMethod, this)
+            if (!window.re.registry.has(propertyKey))
+                window.re.registry.setMethod(propertyKey, descriptor.value, originalMethod, this)
             let hookData: any = {
-                    functionName: propertyKey,
-                    functionReference: descriptor.value,
-                    arguments: args,
-                    originalFunctionReference: originalMethod,
-                    target: this,
-                    when: 'before',
-                    skipExecution: false
-                }
-            ;(window as any).re[hookName](hookData)
+                functionName: propertyKey,
+                functionReference: descriptor.value,
+                arguments: args,
+                originalFunctionReference: originalMethod,
+                target: this,
+                when: 'before',
+                skipExecution: false
+            }
+            window.re[hookName](hookData)
             if (hookData.skipExecution)
                 return
 
             let result = originalMethod.apply(this, args);
             hookData.result = result
             hookData.when = 'after'
-            ;(window as any).re[hookName](hookData)
+            window.re[hookName](hookData)
             return result;
         }
     }

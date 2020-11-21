@@ -37,6 +37,20 @@ class RDTStorage {
         return this.withStorage(s => s);
     }
 }
+const proxy = {
+    apply: async (f, that, args) => {
+        if (!f.plugin.loaded) {
+            await scriptPromise(f.plugin.url);
+            //await scriptPromise("http://172.25.128.1:8080/dist/plugins/hello/hello.js");//scriptPromise(f.plugin.url);
+            await new Promise(r => setTimeout(r));
+            f.plugin.loaded = true;
+        }
+        return await window.re[f.plugin.name](args);
+    },
+    get: function (f, name) {
+        return `${f.plugin.name}: read description at ${f.plugin.readme}`;
+    }
+};
 class ReDevTools {
     constructor() {
         this.state = new RDTStorage("ReDevTools");
@@ -46,6 +60,11 @@ class ReDevTools {
     async init() {
         let defaultPlugins = await fetch("https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins.json").then(r => r.json());
         console.log("defaultPlugins: ", defaultPlugins);
+        for (let plugin of defaultPlugins.plugins) {
+            const f = new Function("name", 'console.log("Plugin not yet loaded. Please try again in few seconds")');
+            f.plugin = plugin;
+            this[plugin.name] = new Proxy(f, proxy);
+        }
         logi("ReDevTools", `Ready to help you. type \`re. \` in the console to explore available plugins. Go to https://redevtools.com for more information`);
     }
 }
@@ -82,7 +101,7 @@ class ReDevToolsRegistry {
  * @param hookName The name of your plugin hook
  * @constructor
  */
-export function re(hookName) {
+export function Re(hookName) {
     return function (target, propertyKey, descriptor) {
         let originalMethod = descriptor.value;
         descriptor.value = function (...args) {

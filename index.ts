@@ -89,7 +89,7 @@ class ReDevTools {
     }
 
     async init() {
-        let defaultPlugins = await fetch("https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins.json").then(r => r.json())
+        let defaultPlugins = await fetch("https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins/plugins.json").then(r => r.json())
         console.log("defaultPlugins: ", defaultPlugins)
         for(let plugin of defaultPlugins.plugins){
             const f = new Function("name", 'console.log("Plugin not yet loaded. Please try again in few seconds")')

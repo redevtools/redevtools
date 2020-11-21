@@ -34,5 +34,5 @@ export declare const redevtools: {
  * @param hookName The name of your plugin hook
  * @constructor
  */
-export declare function re(hookName: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function Re(hookName: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
 export {};

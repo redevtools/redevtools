@@ -1,6 +1,6 @@
 {
   "name": "redevtools",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "ReDevTools extends your browser devtools with custom plugins",
   "main": "dist/index.js",
   "homepage": "https://www.redevtools.com",

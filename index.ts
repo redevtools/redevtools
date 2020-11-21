@@ -73,7 +73,7 @@ class ReDevTools {
     }
 
     async init() {
-        let defaultPlugins = await fetch("https://cdn.jsdelivr.net/gh/redevtools/redevtools@master/plugins.json").then(r => r.json())
+        let defaultPlugins = await fetch("https://cdn.jsdelivr.net/gh/redevtools/redevtools@release/plugins.json").then(r => r.json())
         console.log("defaultPlugins: ", defaultPlugins)
         logi("ReDevTools", `Ready to help you. type \`re. \` in the console to explore available plugins. Go to https://redevtools.com for more information`)
     }

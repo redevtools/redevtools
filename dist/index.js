@@ -37,9 +37,26 @@ class RDTStorage {
         return this.withStorage(s => s);
     }
 }
+const printInfo = (f) => {
+    let params = [];
+    for (let p in f.plugin.params)
+        params.push(`${p}: ${f.plugin.params[p]}`);
+    return `
+        Function Name: ${f.plugin.name}
+        Params: 
+            ${params.join("\t\n")}
+        Example: ${f.plugin.example} 
+        
+        ${f.plugin.description}
+        Full description at ${f.plugin.readme}
+        
+        `;
+};
 const proxy = {
     apply: async (f, that, args) => {
         if (!f.plugin.loaded) {
+            printInfo(f);
+            console.log("Plugins are lazy. Loading plugin for the first time.");
             await scriptPromise(f.plugin.url);
             //await scriptPromise("http://172.25.128.1:8080/dist/plugins/hello/hello.js");//scriptPromise(f.plugin.url);
             await new Promise(r => setTimeout(r));
@@ -51,19 +68,7 @@ const proxy = {
             return "Could not load plugin";
     },
     get: function (f, name) {
-        let params = [];
-        for (let p in f.plugin.params)
-            params.push(`${p}: ${f.plugin.params[p]}`);
-        return `
-        Function Name: ${f.plugin.name}
-        Params: 
-            ${params.join("\t\n")}
-        Example: ${f.plugin.example} 
-        
-        ${f.plugin.description}
-        Full description at ${f.plugin.readme}
-        
-        `;
+        printInfo(f);
     }
 };
 class ReDevTools {

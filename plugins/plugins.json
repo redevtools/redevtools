@@ -9,7 +9,7 @@
       "example": "re.hello('World')",
       "description": "A simple hello world plugin",
       "url": "https://unpkg.com/redevtools/dist/plugins/hello/hello.js",
-      "readme": "https://github.com/redevtools/redevtools/tree/release/plugins/hello",
+      "readme": "https://github.com/redevtools/redevtools/tree/main/plugins/hello",
       "preview": "https://unpkg.com/redevtools/dist/plugins/hello/preview.gif"
     },
     {
@@ -20,7 +20,7 @@
       "example": "re.json2ts({user: 'me', age: 36})",
       "description": "A plugin to convert a JSON object to TypeScript interface. The result is automatically copied into the clipboard.",
       "url": "https://unpkg.com/redevtools/dist/plugins/json2ts/json2ts.js",
-      "readme": "https://github.com/redevtools/redevtools/tree/release/plugins/json2ts",
+      "readme": "https://github.com/redevtools/redevtools/tree/main/plugins/json2ts",
       "preview": "https://unpkg.com/redevtools/dist/plugins/json2ts/preview.gif"
     }
   ]

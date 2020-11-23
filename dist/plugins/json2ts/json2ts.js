@@ -12,8 +12,13 @@
     async function json2ts(json) {
         let ts = new Json2Ts().convert(json);
         console.log(ts);
-        copy(ts);
-        console.log("Code copied to clipboard!");
+        try {
+            if (copy) {
+                copy(ts);
+                console.log("Code copied to clipboard!");
+            }
+        }
+        catch (_a) { }
     }
     re.json2ts = json2ts;
     re.json2ts.version = "1.0";

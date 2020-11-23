@@ -13,8 +13,12 @@ declare var copy;
         async function json2ts(json) {
             let ts = new Json2Ts().convert(json)
             console.log(ts)
-            copy(ts)
-            console.log("Code copied to clipboard!")
+            try{
+                if(copy){
+                    copy(ts)
+                    console.log("Code copied to clipboard!")
+                }
+            } catch {}
         }
 
         re.json2ts = json2ts

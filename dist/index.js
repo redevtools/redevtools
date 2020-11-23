@@ -51,7 +51,19 @@ const proxy = {
             return "Could not load plugin";
     },
     get: function (f, name) {
-        return `${f.plugin.name}: read description at ${f.plugin.readme}`;
+        let params = [];
+        for (let p in f.plugin.params)
+            params.push(`${p}: ${f.plugin.params[p]}`);
+        return `
+        Function Name: ${f.plugin.name}
+        Params: 
+            ${params.join("\t\n")}
+        Example: ${f.plugin.example} 
+        
+        ${f.plugin.description}
+        Full description at ${f.plugin.readme}
+        
+        `;
     }
 };
 class ReDevTools {
@@ -61,7 +73,7 @@ class ReDevTools {
         this.profile = {};
     }
     async init() {
-        let defaultPlugins = await fetch("https://cdn.jsdelivr.net/npm/redevtools/dist/plugins.json").then(r => r.json());
+        let defaultPlugins = await fetch("https://unpkg.com/redevtools/dist/plugins.json").then(r => r.json());
         console.log("defaultPlugins: ", defaultPlugins);
         for (let plugin of defaultPlugins.plugins) {
             const f = new Function("name", 'console.log("Plugin not yet loaded. Please try again in few seconds")');

@@ -77,7 +77,21 @@ const proxy = {
             return "Could not load plugin"
     },
     get: function(f, name) {
-        return `${f.plugin.name}: read description at ${f.plugin.readme}`
+
+        let params:string[] = []
+        for(let p in f.plugin.params)
+            params.push(`${p}: ${f.plugin.params[p]}`)
+
+        return `
+        Function Name: ${f.plugin.name}
+        Params: 
+            ${params.join("\t\n")}
+        Example: ${f.plugin.example} 
+        
+        ${f.plugin.description}
+        Full description at ${f.plugin.readme}
+        
+        `
     }
 }
 

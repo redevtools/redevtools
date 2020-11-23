@@ -2,7 +2,7 @@
 This is the 'hello world' plugin to show how simple it is to create plugins with **redevtools**
 
 
-![Hello world plugin in cation](snapshot.gif)
+![Hello world plugin in cation](preview.gif)
 
 
 ```typescript
@@ -24,10 +24,10 @@ This is the 'hello world' plugin to show how simple it is to create plugins with
 Plugins are written in **TypeScript** or JavaScript.
 
 Each plugin includes a README.md file that describes what the plugin does and a 
-`snapshot.gif` file as a preview of the plugin in action. We suggest to use animated 
+`preview.gif` file as a preview of the plugin in action. We suggest to use animated 
 gif files to show the plugin in action.
 
-##Publish a plugin
+## Publish a plugin
 
 To publish a plugin make a pull request with the plugin files directly to this repository.
 

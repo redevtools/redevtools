@@ -14,10 +14,12 @@ declare var copy;
             let ts = new Json2Ts().convert(json)
             console.log(ts)
             try{
-                if(copy){
-                    copy(ts)
-                    console.log("Code copied to clipboard!")
-                }
+                setTimeout(()=>{
+                    if(copy){
+                        copy(ts)
+                        console.log("Code copied to clipboard!")
+                    }
+                },10)
             } catch {}
         }
 

@@ -55,7 +55,7 @@ const printInfo = (f) => {
 const proxy = {
     apply: async (f, that, args) => {
         if (!f.plugin.loaded) {
-            printInfo(f);
+            console.log(printInfo(f));
             console.log("Plugins are lazy. Loading plugin for the first time.");
             await scriptPromise(f.plugin.url);
             //await scriptPromise("http://172.25.128.1:8080/dist/plugins/hello/hello.js");//scriptPromise(f.plugin.url);
@@ -68,7 +68,7 @@ const proxy = {
             return "Could not load plugin";
     },
     get: function (f, name) {
-        printInfo(f);
+        return printInfo(f);
     }
 };
 class ReDevTools {
@@ -81,7 +81,9 @@ class ReDevTools {
         let defaultPlugins = await fetch("https://unpkg.com/redevtools/dist/plugins.json").then(r => r.json());
         console.log("defaultPlugins: ", defaultPlugins);
         for (let plugin of defaultPlugins.plugins) {
+            let params = plugin.params ? Object.keys(plugin.params).join(", ") : "";
             const f = new Function("name", 'console.log("Plugin not yet loaded. Please try again in few seconds")');
+            f._ = `Usage: re.${plugin.name}(${params}) - type re.${plugin.name}.info for more details. `;
             f.plugin = plugin;
             this[plugin.name] = new Proxy(f, proxy);
         }

@@ -8,7 +8,7 @@ Just type `re.json2ts(yourJsonData)` and it will print the json and copy it into
 The result is **automatically copied** into the clipboard, ready to be pasted into your IDE.
 
 
-More info at [Generate TypeScript interfaces from a JSON object or from a request right into the console](https://www.redevtools.com/blog/generate-typescript-interfaces-from-a-json-object-or-from-a-request-right-into-the-console/)
+More info at [Convert a JSON object to a TypeScript interface right from the console](https://www.redevtools.com/blog/convert-json-to-typescript-interface-from-the-console/)
 
 ## Thanks to Gregor Biswanger
 

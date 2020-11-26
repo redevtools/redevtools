@@ -9,4 +9,8 @@ The result is **automatically copied** into the clipboard, ready to be pasted in
 
 More at [json2ts – Convert a JSON object to a TypeScript interface… from the console](https://www.redevtools.com/blog/convert-json-to-typescript-interface-from-the-console/)
 
+## Thanks to Gregor Biswanger
+
+Code adapted from https://github.com/GregorBiswanger/json2ts
+
 

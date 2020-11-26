@@ -7,10 +7,14 @@
   "repository": "https://github.com/redevtools/redevtools",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "prepare": "tsc"
+    "build": "tsc && copyfiles \"./plugins/**/*.gif\" dist && copyfiles \"./plugins/*.json\" dist",
+    "watch": "tsc --watch",
+    "prepare": "npm run build"
   },
   "keywords": [],
   "author": "Buglink.com Team",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "copyfiles": "^2.4.0"
+  }
 }

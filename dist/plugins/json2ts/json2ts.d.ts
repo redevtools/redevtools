@@ -25,3 +25,4 @@ declare class Json2Ts {
     private toLowerFirstLetter;
     isJson(stringContent: any): boolean;
 }
+declare function copyToClipboard(text: any): boolean;

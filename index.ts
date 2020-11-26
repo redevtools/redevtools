@@ -12,7 +12,7 @@ type JSONArray = JSONValue[];
 
 declare global {
     interface Window {
-        re: (ReDevTools & Json);
+        re: (ReDevTools & Json & { hooks: ReDevToolsHookRegistry, registry: ReDevToolsMethodRegistry, methods });
     }
 }
 
@@ -38,9 +38,6 @@ interface RDTState {
     session: {}
 }
 
-interface RDTProfile {
-}
-
 class RDTStorage {
 
     constructor(private name: string, private version = 1) {
@@ -62,79 +59,110 @@ class RDTStorage {
 
 }
 
-const printInfo = (f) => {
-    let params:string[] = []
-    for(let p in f.plugin.params)
-        params.push(`${p}: ${f.plugin.params[p]}`)
+const pluginInfo = (plugin) => {
+    let params: string[] = []
+    for (let p in plugin.params)
+        params.push(`${p}: ${plugin.params[p]}`)
 
     return `
-        Function Name: ${f.plugin.name}
+        Function Name: ${plugin.name}
         Params: 
             ${params.join("\t\n")}
-        Example: ${f.plugin.example} 
+        Example: ${plugin.example} 
         
-        ${f.plugin.description}
-        Full description at ${f.plugin.readme}
-        
+        ${plugin.description}
+        Full description at ${plugin.readme}
         `
+}
+
+async function logImage(url) {
+    if (!url)
+        return
+    return new Promise(r => {
+        const img = new Image();
+        img.onload = function () {
+            const style = "font-size: 1px; padding: " + Math.floor(img.height / 2) + "px " + Math.floor(img.width / 2) + "px; ";
+            console.log("%c+", style + "background: url(" + url + "); background-size: " + (img.width) + "px " + (img.height) + "px; color: transparent;");
+            r()
+        };
+        img.onerror = r
+        img.src = url;
+    })
+}
+
+async function printPluginInfo(plugin) {
+    try {
+        await logImage(plugin.preview)
+        console.log(pluginInfo(plugin))
+    } catch {
+    }
+}
+
+const loadPlugin = async (plugin) => {
+    if (!plugin.loaded) {
+        console.log("Plugins are lazy. Loading plugin for the first time.")
+        await scriptPromise(plugin.url);
+        await new Promise(r => setTimeout(r))
+        plugin.loaded = true;
+    }
 }
 
 const proxy = {
     apply: async (f, that, args) => {
-        if(!f.plugin.loaded){
-            console.log(printInfo(f))
-            console.log("Plugins are lazy. Loading plugin for the first time.")
-            await scriptPromise(f.plugin.url);
-            //await scriptPromise("http://172.25.128.1:8080/dist/plugins/hello/hello.js");//scriptPromise(f.plugin.url);
-            await new Promise(r => setTimeout(r))
-            f.plugin.loaded = true;
-        }
-        if (f.plugin.loaded)
-            return await window.re[f.plugin.name](args);
-        else
-            return "Could not load plugin"
+        await loadPlugin(f.plugin)
+        if(f.plugin.loaded)
+            return window.re[f.plugin.name](args)
     },
-    get: function(f, name) {
-        return printInfo(f)
+    get: function (f, name) {
+        if (name == 'info')
+            printPluginInfo(f.plugin);
+        return '↓'
     }
-
 }
 
 class ReDevTools {
 
     state = new RDTStorage("ReDevTools")
-    private profile: RDTProfile;
+    registry: ReDevToolsMethodRegistry;
+    hooks: ReDevToolsHookRegistry;
 
     constructor() {
         this.init()
-        this.profile = {}
+        this.registry = new ReDevToolsMethodRegistry()
+        this.hooks = new ReDevToolsHookRegistry()
     }
 
     async init() {
-        let defaultPlugins = await fetch("https://unpkg.com/redevtools/dist/plugins.json").then(r => r.json())
-        console.log("defaultPlugins: ", defaultPlugins)
-        for(let plugin of defaultPlugins.plugins){
-            let params = plugin.params? Object.keys(plugin.params).join(", ") : ""
-            const f = new Function("name", 'console.log("Plugin not yet loaded. Please try again in few seconds")')
-            ;(f as any)._ = `Usage: re.${plugin.name}(${params}) - type re.${plugin.name}.info for more details. `
+        let pluginsData = await fetch("https://unpkg.com/redevtools/dist/plugins/plugins.json").then(r => r.json())
+        for (let plugin of pluginsData.plugins) {
+            const f = new Function(Object.keys(plugin.params).join(","), '')
+            ;(f as any)._ = `Usage: \`re.${plugin.name}(${Object.keys(plugin.params).join(",")})\` - type \`re.${plugin.name}.info\` for more details. `
             ;(f as any).plugin = plugin
             this[plugin.name] = new Proxy(f, proxy)
         }
-        logi("ReDevTools", `Ready to help you. type \`re. \` in the console to explore available plugins. Go to https://redevtools.com for more information`)
     }
 
+    get methods() {
+        return new Proxy(this.registry.methods, {
+            get: (f, name: string) => {
+                let result = this.registry.methods[name].method.bind(this.registry.methods[name].instance)
+                if (!result)
+                    console.warn("returned value was undefined")
+                return result
+            }
+        })
+    }
 }
 
 export const redevtools = {
     init: () => {
-        window.re = new ReDevTools() as any;
-        const registry = new ReDevToolsRegistry()
-        window.re.functions = registry
+        window.re = new ReDevTools()
+        logi("ReDevTools", `Type \`re. \` to discover available plugins. More info at https://redevtools.com`);
     }
 }
 
 
-class ReDevToolsRegistry {
+class ReDevToolsMethodRegistry {
     methods: { [name: string]: { name: string, method: any, original: any, instance: any } } = {}
 
     has(name: string) {
@@ -143,52 +171,98 @@ class ReDevToolsRegistry {
 
     setMethod(name: string, method: any, original: any, instance: any) {
         this.methods[name] = {name, method, instance, original}
-        if (["methods", "has", "setMethod", "callMethod"].indexOf(name) < 0)
-            (this as any)[name] = method.bind(instance)
-    }
-
-    callMethod(name: string, params: any[]) {
-        let m = this.methods[name]
-        try {
-            m.method.apply(m.instance, params)
-        } catch (e) {
-
-        }
     }
 
 }
 
+type HookData = {
+    functionName: string,
+    functionReference: Function,
+    arguments: any[],
+    callMethodWithCurrentArgs: <T>() => T
+    target: any,
+    skipExecution: boolean,
+    replaceReturned: boolean
+}
+
+class ReDevToolsHookRegistry {
+    hooks: { [name: string]: (hookData: HookData) => unknown } = {}
+
+    has(name: string) {
+        return this.hooks[name] != null
+    }
+
+    register(name: string, hook: (hookData: HookData) => unknown) {
+        this.hooks[name] = hook
+    }
+
+    fireHookEvent(hookData) {
+        let returnedByHook: any = undefined
+        for (let hookName in this.hooks) {
+            let m = this.hooks[hookName]
+            try {
+                let result = m(hookData)
+                if (hookData.replaceReturned)
+                    returnedByHook = result
+            } catch (e) {
+                console.error(e)
+            }
+        }
+        return returnedByHook
+    }
+
+}
+
+function thisLine() {
+    const e = new Error();
+    const regex = /\((.*):(\d+):(\d+)\)$/
+    const match:any = regex.exec((e.stack as any).split("\n")[2]);
+    return {
+        filepath: match[1],
+        line: match[2],
+        column: match[3]
+    };
+}
 
 /**
  *
- * @param hookName The name of your plugin hook
- * @constructor
+ * The method gets registered and is available at re.methods.methodName(...)
+ * Every time the method is called in the code, any registered hook is called.
+ * To register a hook use re.hooks.register(yourHook) in your plugin code
+ *
  */
-export function Re(hookName: string) {
+export function Re() {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        let originalMethod = descriptor.value;
+        // @ts-ignore
+        let originalMethod = descriptor.value
         descriptor.value = function (...args: any[]) {
+            console.log(thisLine())
             if (!window.re.registry.has(propertyKey))
                 window.re.registry.setMethod(propertyKey, descriptor.value, originalMethod, this)
+
             let hookData: any = {
                 functionName: propertyKey,
                 functionReference: descriptor.value,
                 arguments: args,
-                originalFunctionReference: originalMethod,
+                callMethodWithCurrentArgs: () => {
+                    return originalMethod.apply(this, args)
+                },
                 target: this,
-                when: 'before',
-                skipExecution: false
+                skipExecution: false,
+                replaceReturned: false
             }
-            window.re[hookName](hookData)
+            let returnedByHook = window.re.hooks.fireHookEvent(hookData)
+            if (hookData.replaceReturned)
+                return returnedByHook
             if (hookData.skipExecution)
                 return
 
-            let result = originalMethod.apply(this, args);
+            let result = originalMethod.apply(hookData.target, hookData.arguments);
             hookData.result = result
-            hookData.when = 'after'
-            window.re[hookName](hookData)
             return result;
         }
     }
 }
+
+
 

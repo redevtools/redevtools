@@ -12,15 +12,8 @@
     async function json2ts(json) {
         let ts = new Json2Ts().convert(json);
         console.log(ts);
-        try {
-            setTimeout(() => {
-                if (copy) {
-                    copy(ts);
-                    console.log("Code copied to clipboard!");
-                }
-            }, 10);
-        }
-        catch (_a) { }
+        if (copyToClipboard(ts))
+            console.log("Code is in your clipboard 😉");
     }
     re.json2ts = json2ts;
     re.json2ts.version = "1.0";
@@ -188,4 +181,21 @@ class Json2Ts {
         }
         return true;
     }
+}
+function copyToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        return document.execCommand('copy');
+    }
+    catch (err) {
+        return false;
+    }
+    document.body.removeChild(textArea);
 }

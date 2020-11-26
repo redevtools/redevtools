@@ -32,12 +32,12 @@ You can see every available plugin by typing `re.` into the console.
 
 **ReDevTools is lazy**: When you call a plugin for the first time, only then the plugin gets downloaded.
 
-## Hooks
+## Methods
 Some plugins are hooks into your source code class methods.
-To install a ReDevTools Hook add the following decorator:
+To enable any of your methods to be hooked add the @Re decorator:
 
 ```typescript
-@Re("logMethod")
+@Re()
 myMethod(args) {
 ...
 }
@@ -45,7 +45,7 @@ myMethod(args) {
 
 Every hooked method can be called anytime in the console by using:
 
-```re.functions.myMethod(args)```
+```re.methods.myMethod(args)```
 
 The `this` inside the method is the same `this` of the class instance. 
 

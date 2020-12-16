@@ -20,8 +20,8 @@
 
 <script lang="ts">
 import {Options, Vue} from 'vue-class-component';
-import TailwindPopup from "./tailwind-popup.vue";
-import TailwindClassesManager from "./tailwind-classes-manager.vue";
+import TailwindPopup from "@/components/tailwind-popup.vue";
+import TailwindClassesManager from "@/components/tailwind-classes-manager.vue";
 
 
 @Options({

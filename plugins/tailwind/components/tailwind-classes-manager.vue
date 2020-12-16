@@ -1,9 +1,15 @@
 <template>
 
-  <div class="redevtool classes-manager">
+  <div class="redevtool classes-manager" ref="tokens">
 
-    <div class="token" :title="c.tooltip" v-for="c in classes" v-bind:key="c.name">
-      <input :value="c.name" @keydown="updateInputSize"/>
+    <div class="token" :title="c.tooltip" v-for="(c, index) in classes" :key="c">
+      <input :value="c.name" @keydown="updateInputSize"
+             @keyup.left="updateLeftFocus($event.target, index)"
+             @keyup.right="updateRightFocus($event.target, index)"
+             @keyup.enter="updateClass(c, $event.target.value, index)"/>
+    </div>
+    <div class="token" title="Add new class">
+      <input v-model="newClass" placeholder="+" @keydown.enter="addNewClass" @keyup.left="focusLastToken"/>
     </div>
 
   </div>
@@ -22,6 +28,12 @@ import {tailwind} from "@/components/tailwind.classes";
   emits: {}
 })
 export default class TailwindClassesManager extends Vue {
+
+  $refs!: {
+    tokens: HTMLDivElement;
+  }
+
+  newClass = ''
 
   inspect!: { target: HTMLElement }
 
@@ -42,6 +54,10 @@ export default class TailwindClassesManager extends Vue {
         input.style.width = (input.value.length + 1) + 'ch'
       })
     })
+    this.updateClasses();
+  }
+
+  private updateClasses() {
     const className = this.inspect.target?.className
     if (className) {
       const classes = className.split(" ")
@@ -61,6 +77,51 @@ export default class TailwindClassesManager extends Vue {
     const input = e.target as HTMLInputElement
     if (input)
       input.style.width = (input.value.length + 1) + 'ch'
+  }
+
+  private addNewClass() {
+    console.log("addNewClass: ")
+    if (this.newClass)
+      this.inspect.target.classList.add(this.newClass)
+    this.updateClasses()
+    this.newClass = ''
+  }
+
+  private updateClass(c: { name: string }, newClass: string, index: number) {
+    if (newClass == '')
+      this.inspect.target.classList.remove(c.name)
+    else
+      this.inspect.target.className = this.inspect.target.className.replace(c.name, newClass)
+    this.updateClasses()
+    this.$nextTick(()=>{
+      const input = this.$refs.tokens.children[index].querySelector("input")
+      console.log("input: ",input)
+      if (input) {
+        input.focus()
+      }
+    })
+  }
+
+  private updateLeftFocus(token: HTMLInputElement, index: number) {
+    if (token.selectionStart == 0 && index > 0) {
+      const input = this.$refs.tokens.children[index - 1].querySelector("input")
+      if (input) {
+        input.focus()
+      }
+    }
+  }
+
+  private updateRightFocus(token: HTMLInputElement, index: number) {
+    if (token.selectionStart == token.value.length && index < this.$refs.tokens.children.length - 1) {
+      const input = this.$refs.tokens.children[index + 1].querySelector("input")
+      if (input) {
+        input.focus()
+      }
+    }
+  }
+
+  private focusLastToken() {
+    this.$refs.tokens.children[this.$refs.tokens.children.length - 2].querySelector("input")?.focus()
   }
 }
 </script>
@@ -92,7 +153,7 @@ export default class TailwindClassesManager extends Vue {
   font-family: monospace;
 }
 
-.token input:hover, .token input:active {
+.token input:hover, .token input:active, .token input:focus {
   background-color: #f1f1f1;
 }
 

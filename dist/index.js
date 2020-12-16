@@ -85,7 +85,7 @@ const proxy = {
     apply: async (f, that, args) => {
         await loadPlugin(f.plugin);
         if (f.plugin.loaded)
-            return window.re[f.plugin.name](args);
+            return window.re[f.plugin.name](...args);
     },
     get: function (f, name) {
         if (name == 'info')
@@ -185,7 +185,6 @@ export function Re() {
         // @ts-ignore
         let originalMethod = descriptor.value;
         descriptor.value = function (...args) {
-            console.log(thisLine());
             if (!window.re.registry.has(propertyKey))
                 window.re.registry.setMethod(propertyKey, descriptor.value, originalMethod, this);
             let hookData = {

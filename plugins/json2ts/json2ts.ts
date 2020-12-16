@@ -214,5 +214,7 @@ function copyToClipboard(text) {
     } catch (err) {
         return false
     }
-    document.body.removeChild(textArea);
+    setTimeout(()=>{
+        document.body.removeChild(textArea);
+    }, 500)
 }

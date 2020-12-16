@@ -110,8 +110,8 @@ const loadPlugin = async (plugin) => {
 const proxy = {
     apply: async (f, that, args) => {
         await loadPlugin(f.plugin)
-        if(f.plugin.loaded)
-            return window.re[f.plugin.name](args)
+        if (f.plugin.loaded)
+            return window.re[f.plugin.name](...args)
     },
     get: function (f, name) {
         if (name == 'info')
@@ -132,13 +132,19 @@ class ReDevTools {
         this.hooks = new ReDevToolsHookRegistry()
     }
 
-    async init() {
+    async init(options: { plugins: string[] } = {plugins: []}) {
         let pluginsData = await fetch("https://unpkg.com/redevtools/dist/plugins/plugins.json").then(r => r.json())
         for (let plugin of pluginsData.plugins) {
             const f = new Function(Object.keys(plugin.params).join(","), '')
             ;(f as any)._ = `Usage: \`re.${plugin.name}(${Object.keys(plugin.params).join(",")})\` - type \`re.${plugin.name}.info\` for more details. `
             ;(f as any).plugin = plugin
             this[plugin.name] = new Proxy(f, proxy)
+        }
+        if (options?.plugins?.length > 0) {
+            for (let p of options.plugins) {
+                if (this[p])
+                    await loadPlugin(p)
+            }
         }
     }
 
@@ -216,7 +222,7 @@ class ReDevToolsHookRegistry {
 function thisLine() {
     const e = new Error();
     const regex = /\((.*):(\d+):(\d+)\)$/
-    const match:any = regex.exec((e.stack as any).split("\n")[2]);
+    const match: any = regex.exec((e.stack as any).split("\n")[2]);
     return {
         filepath: match[1],
         line: match[2],
@@ -236,7 +242,6 @@ export function Re() {
         // @ts-ignore
         let originalMethod = descriptor.value
         descriptor.value = function (...args: any[]) {
-            console.log(thisLine())
             if (!window.re.registry.has(propertyKey))
                 window.re.registry.setMethod(propertyKey, descriptor.value, originalMethod, this)
 

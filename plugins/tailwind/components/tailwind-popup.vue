@@ -104,7 +104,6 @@ path {
   box-shadow: 0px 0px 12px 0px rgba(128, 128, 128, .5);
   background-color: white;
   width: 200px;
-  min-height: 150px;
   position: fixed;
   border-radius: 4px;
   z-index: 10002;

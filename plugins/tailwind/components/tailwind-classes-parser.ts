@@ -158,7 +158,10 @@ const levenshtein = (function () {
 })();
 
 export function closest(className: string): CssClassData[] {
-    const classes = tailwind.all.map(c => ({...c, distance: levenshtein(className, c.className) ?? -1}))
+    let all = tailwind.all.filter(c => c.className.startsWith(className))
+    if(all.length == 0)
+        all = tailwind.all
+    const classes = all.map(c => ({...c, distance: levenshtein(className, c.className) ?? -1}))
     return classes.filter(c => c.distance != -1).sort((c1, c2) => {
         return c1.distance - c2.distance
     }).slice(0, 10)

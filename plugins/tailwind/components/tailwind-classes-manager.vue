@@ -4,24 +4,25 @@
 
 
     <div class="token" :title="c.rules" v-for="(c, index) in classes" :key="c">
-      <input @keyup="updateInputSize"
-             @click="updateRules($event.target)"
-             @focus="updateRules($event.target)"
-             @keydown.down.stop.prevent="updateClassHighlight(1, c, index)"
-             @keydown.up.stop.prevent="updateClassHighlight(-1, c, index)"
-             @keyup.left="updateLeftFocus($event.target, index)"
-             @keyup.right="updateRightFocus($event.target, index)"
-             @keydown.enter.stop.prevent="updateClass(c, $event.target.value, index)"/>
+      <input
+          @keyup="onKeyUp"
+          @click="updateRules($event.target)"
+          @focus="updateRules($event.target)"
+          @keydown.up.stop.prevent="updateClassHighlight(-1, $event.target)"
+          @keydown.down.stop.prevent="updateClassHighlight(1, $event.target)"
+          @keyup.left="updateLeftFocus($event.target, index)"
+          @keyup.right="updateRightFocus($event.target, index)"
+      />
     </div>
     <div class="token" title="Add new class">
-      <input v-model="newClass" placeholder="+"
+      <input v-model="newClass" placeholder="+" autofocus
              @click="updateRules($event.target)"
              @focus="updateRules($event.target)"
-             @keyup="updateRules($event.target)"
-             @keydown.enter.stop.prevent="addNewClass"
-             @keydown.down.stop.prevent="updateClassHighlight(1)"
-             @keydown.up.stop.prevent="updateClassHighlight(-1)"
-             @keyup.left="focusLastToken"/>
+             @keyup="onKeyUp"
+             @keydown.up.stop.prevent="updateClassHighlight(-1, $event.target)"
+             @keydown.down.stop.prevent="updateClassHighlight(1, $event.target)"
+             @keyup.left="focusLastToken"
+      />
     </div>
 
     <hr/>
@@ -63,13 +64,16 @@ import {closest, CssClassData, tokensTree} from "@/components/tailwind-classes-p
   props: {
     inspect: {target: HTMLElement}
   },
-  emits: {}
+  emits: {
+    updated: {}
+  }
 })
 export default class TailwindClassesManager extends Vue {
 
   $refs!: {
     tokens: HTMLDivElement;
   }
+
 
   newClass = ''
 
@@ -87,31 +91,41 @@ export default class TailwindClassesManager extends Vue {
   }
   private tokensTree: { token: string; children: string[]; tree: any; parent? } = tokensTree(tailwind.all)
   private classIndex = -1;
-  private prevTargetClassAttribute = '';
+
+  private prevClasses = ''
+  private lastClassName = ''
 
   mounted() {
+    this.lastClassName = this.inspect.target.className
     this.updateClasses();
+    this.updateAllInputSizes()
   }
 
-  beforeUpdate() {
-    if (this.inspect.target.className != this.prevTargetClassAttribute) {
-      this.prevTargetClassAttribute = this.inspect.target.className
-      this.updateClasses();
-      this.$nextTick(() => {
+  updated() {
+    this.updateAllInputSizes()
+    this.$nextTick(() => {
+      if (this.prevClasses != this.lastClassName) {
+        this.prevClasses = this.inspect.target.className
         this.$el.querySelectorAll("input").forEach((input: HTMLInputElement, index) => {
           if (this.classes[index])
             input.value = this.classes[index].className
-          input.style.width = (input.value.length + 1) + 'ch'
         })
-      })
-    }
+        this.updateAllInputSizes()
+      }
+    })
+  }
+
+  updateAllInputSizes() {
+    this.$el.querySelectorAll("input").forEach((input: HTMLInputElement) => {
+      input.style.width = (input.value.length + 1) + 'ch'
+    })
   }
 
   private updateClasses() {
     const className = this.inspect.target?.className
     if (className) {
       const classes = className.split(" ")
-      this.classes = classes.map(c => {
+      this.classes = classes.filter(c => c.length > 0).map(c => {
         const foundRules = tailwind.all.filter(t => t.className == c)
         return foundRules[0] ?? {className: c, rules: ''}
       }).filter(c => c)
@@ -119,37 +133,9 @@ export default class TailwindClassesManager extends Vue {
     }
   }
 
-  private updateInputSize(e: KeyboardEvent) {
-    const input = e.target as HTMLInputElement
-    if (input)
-      input.style.width = (input.value.length + 1) + 'ch'
+  private onKeyUp(e: KeyboardEvent) {
     if (e.key != "ArrowDown" && e.key != "ArrowUp")
-      this.updateRules(input)
-  }
-
-  private addNewClass() {
-    if (this.classIndex >= 0)
-      this.newClass = this.suggested[this.classIndex].twClass
-    if (this.newClass)
-      this.inspect.target.classList.add(this.newClass)
-    this.updateClasses()
-    this.newClass = ''
-  }
-
-  private updateClass(c: CssClassData, newClass: string, index: number) {
-    if (this.classIndex >= 0)
-      newClass = this.suggested[this.classIndex].twClass
-    if (newClass == '')
-      this.inspect.target.classList.remove(c.className)
-    else
-      this.inspect.target.className = this.inspect.target.className.replace(c.className, newClass)
-    this.updateClasses()
-    this.$nextTick(() => {
-      const input = this.$refs.tokens.children[index].querySelector("input")
-      if (input) {
-        input.focus()
-      }
-    })
+      this.updateRules(e.target as HTMLInputElement)
   }
 
   private updateLeftFocus(token: HTMLInputElement, index: number) {
@@ -187,7 +173,6 @@ export default class TailwindClassesManager extends Vue {
     this.activeRules = []
     this.suggested = []
     this.classIndex = -1
-    this.updateClassHighlight()
 
     const value = input.value ?? ''
 
@@ -245,7 +230,7 @@ export default class TailwindClassesManager extends Vue {
 
   private updateSuggested(closestClasses: CssClassData[], className: string, tokens: string[], caretPosition: number) {
     if (className == '') {
-      this.suggested = ['text', 'width', 'height', 'p', 'm', 'font', 'cursor'].map(c => ({twClass: c}))
+      this.suggested = ['text', 'w', 'h', 'p', 'm', 'font', 'cursor'].map(c => ({twClass: c}))
       return
     }
     const nodeClasses = n => {
@@ -346,25 +331,37 @@ export default class TailwindClassesManager extends Vue {
       const tw = {
         twClass: c.className,
         color,
-        valuePx,
-        highlight: false
+        valuePx
       }
       if (tw.twClass == className) {
-        tw.highlight = true
         this.classIndex = ci
       }
 
       return tw
     })
+    this.updateClassHighlight()
   }
 
-  updateClassHighlight(index = 0, c?: CssClassData, ci?: number) {
+  updateClassHighlight(index = 0, input?: HTMLInputElement) {
+    console.log("updateClassHighlight: ", input)
     this.classIndex += index
     this.suggested.forEach((c, i) => {
       delete c.highlight
     })
     if (this.suggested[this.classIndex]) {
       this.suggested[this.classIndex].highlight = true
+      if (input) {
+        console.log("input: ",input, this.suggested[this.classIndex].twClass)
+        setTimeout(()=>{
+          input.value = this.suggested[this.classIndex].twClass
+          input.style.width = (input.value.length + 1) + 'ch'
+        })
+      }
+    }
+    this.inspect.target.className = [...this.$refs.tokens.querySelectorAll("input")].map(i => i.value).join(" ")
+    this.$emit("updated")
+    if (input) {
+      this.updateClassRules(closest(input.value), input.value)
     }
     return false
   }

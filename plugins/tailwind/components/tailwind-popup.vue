@@ -58,7 +58,7 @@ export default class TailwindPopup extends Vue {
   }
 
 
-  private updatePosition() {
+  updatePosition() {
     setTimeout(() => {
       const popup = this.$refs.popup
       const arrowUp = this.$refs.arrowUp
@@ -101,6 +101,10 @@ path {
 }
 
 .rdt-popup {
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
   box-shadow: 0px 0px 12px 0px rgba(128, 128, 128, .5);
   background-color: white;
   width: 200px;

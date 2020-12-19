@@ -11,8 +11,8 @@
   </div>
 
   <div ref="popup">
-    <tailwind-popup v-if="inspected" :target="inspected" @mouseleave="hidePopup" @mousedown="setFocused">
-      <tailwind-classes-manager :inspect="inspected"></tailwind-classes-manager>
+    <tailwind-popup v-if="inspected" :target="inspected" @mouseleave="hidePopup" @mousedown="setFocused" ref="twpopup">
+      <tailwind-classes-manager :inspect="inspected" @updated="updatePopupPosition()"></tailwind-classes-manager>
     </tailwind-popup>
   </div>
 
@@ -39,6 +39,7 @@ export default class TailwindDevtool extends Vue {
   $refs!: {
     highlighter: HTMLElement;
     popup: HTMLElement;
+    twpopup: TailwindPopup;
   }
 
 
@@ -75,6 +76,10 @@ export default class TailwindDevtool extends Vue {
         this.unHighlight()
     })
 
+  }
+
+  private updatePopupPosition(){
+    this.$refs.twpopup.updatePosition()
   }
 
   private highlightLatest() {

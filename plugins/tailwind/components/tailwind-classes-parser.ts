@@ -67,7 +67,7 @@ const levenshtein = (function () {
                 : d1 + 1;
     }
 
-    return function (a: string, b: string) {
+    return function (a = '', b = '') {
         if (a === b) {
             return 0;
         }
@@ -157,12 +157,60 @@ const levenshtein = (function () {
     };
 })();
 
+const cache = {}
+
 export function closest(className: string): CssClassData[] {
+    if (cache[className])
+        return cache[className]
     let all = tailwind.all.filter(c => c.className.startsWith(className))
-    if(all.length == 0)
+    if (all.length == 0)
         all = tailwind.all
     const classes = all.map(c => ({...c, distance: levenshtein(className, c.className) ?? -1}))
-    return classes.filter(c => c.distance != -1).sort((c1, c2) => {
+    const result = classes.filter(c => c.distance != -1).sort((c1, c2) => {
         return c1.distance - c2.distance
     }).slice(0, 10)
+    cache[className] = result
+    return result
+}
+
+export function computeRules(className: string) {
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize)
+    let rawRules = ''
+    const closestClasses = closest(className)
+    if (closestClasses.length > 0 && closestClasses[0].className == className)
+        rawRules = closestClasses[0].rules
+    if (!rawRules)
+        return []
+    const rules = rawRules.split(";").filter((r: string) => r).map((r: string) => {
+        try {
+
+            return {
+                rule: r.split(":")[0].trim(),
+                value: r.split(":")[1].trim(),
+                valuePx: '',
+                color: ''
+            }
+        } catch (e) {
+            return null as any
+        }
+    }).filter(r => r)
+    for (const r of rules) {
+        try {
+            if (r.value.indexOf("rem") >= 0) {
+                const remValue = +r.value.replace("rem", "")
+                const pxValue = rem * remValue
+                r.valuePx = `${pxValue}px`
+            }
+            if (r.value.indexOf("rgba") >= 0) {
+                const colorToken = (r.value.match(/rgba\(\d+,\s?\d+,\s?\d+/gi) ?? [])[0] ?? ''
+                if (colorToken) {
+                    const color = colorToken + ', 1)'
+                    r.color = color
+                }
+            }
+        } catch (e) {
+            console.log("e: ", e)
+        }
+    }
+    return rules;
 }

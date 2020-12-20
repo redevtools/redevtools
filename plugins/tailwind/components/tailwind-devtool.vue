@@ -22,7 +22,39 @@
 import {Options, Vue} from 'vue-class-component';
 import TailwindPopup from "@/components/tailwind-popup.vue";
 import TailwindClassesManager from "@/components/tailwind-classes-manager.vue";
+import TailwindElementClasses from "@/components/tailwind-element-classes.vue";
 
+
+function throttle<F extends ((...args: any[]) => any)>(
+    func: F,
+    wait: number
+) {
+  let timeout: number | null = null;
+  let previous = 0;
+  return function (..._arg) {
+    const now = Date.now();
+
+    const remaining = wait - (now - previous);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    const context = this as unknown
+    const args = _arg;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout as any);
+        timeout = null;
+      }
+      previous = now;
+      func.apply(context, args);
+    } else if (!timeout) {
+      timeout = setTimeout(() => {
+        previous = Date.now();
+        timeout = null;
+        func.apply(context, args);
+      }, remaining);
+    }
+  };
+}
 
 @Options({
   name: "tailwind-devtool",
@@ -33,7 +65,7 @@ import TailwindClassesManager from "@/components/tailwind-classes-manager.vue";
   components: {TailwindPopup, TailwindClassesManager}
 })
 export default class TailwindDevtool extends Vue {
-  private lastTarget: HTMLElement | null = null;
+  private lastTarget!: HTMLElement;
   private inspected: { target: HTMLElement } | null = null;
 
   $refs!: {
@@ -50,35 +82,48 @@ export default class TailwindDevtool extends Vue {
   beforeCreate() {
     const listener = (e: MouseEvent) => {
       this.unHighlight()
-      if (e.target && (e.target as HTMLElement).className?.indexOf("redevtools") < 0) {
-        this.lastTarget = e.target as any
-      }
+      this.findLastTarget(e)
       if (e.ctrlKey) {
         this.highlightLatest()
       }
     }
     document.addEventListener("mouseover", listener)
     document.addEventListener("click", e => {
-      const clickedInside = this.$refs.popup.contains(e.target as any);
+      const clickedInside = this.$refs.popup && this.$refs.popup.contains(e.target as any);
       if (!clickedInside) {
         this.focused = false
         this.inspected = null
       }
       if (this.showHighlighter && this.lastTarget) {
-        this.$emit("inspect", {target: this.lastTarget})
-        this.inspected = {target: this.lastTarget}
+        this.inspected = null
+        setTimeout(() => {
+          this.$emit("inspect", {target: this.lastTarget})
+          this.inspected = {target: this.lastTarget}
+        })
       }
     })
-    document.addEventListener("mousemove", e => {
-      if (e.ctrlKey)
+    const mousemove = throttle(e => {
+      if (e.ctrlKey) {
+        if (!this.lastTarget)
+          this.findLastTarget(e)
         this.highlightLatest()
-      else
+      } else
         this.unHighlight()
-    })
+    }, 50)
+    document.addEventListener("mousemove", mousemove)
 
   }
 
-  private updatePopupPosition(){
+  private findLastTarget(e: MouseEvent) {
+    try{
+      if (e.target && (e.target as HTMLElement).className?.indexOf("redevtools") < 0) {
+        this.lastTarget = e.target as any
+      }
+      // eslint-disable-next-line no-empty
+    } catch {}
+  }
+
+  private updatePopupPosition() {
     this.$refs.twpopup.updatePosition()
   }
 
@@ -116,6 +161,7 @@ export default class TailwindDevtool extends Vue {
     this.focused = true
   }
 }
+
 </script>
 
 <style scoped>

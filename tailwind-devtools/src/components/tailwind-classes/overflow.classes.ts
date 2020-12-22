@@ -1,0 +1,23 @@
+export const classes = [
+    {className: "overflow-auto", rules: "overflow: auto;"},
+    {className: "overflow-hidden", rules: "overflow: hidden;"},
+    {className: "overflow-visible", rules: "overflow: visible;"},
+    {className: "overflow-scroll", rules: "overflow: scroll;"},
+    {className: "overflow-x-auto", rules: "overflow-x: auto;"},
+    {className: "overflow-y-auto", rules: "overflow-y: auto;"},
+    {className: "overflow-x-hidden", rules: "overflow-x: hidden;"},
+    {className: "overflow-y-hidden", rules: "overflow-y: hidden;"},
+    {className: "overflow-x-visible", rules: "overflow-x: visible;"},
+    {className: "overflow-y-visible", rules: "overflow-y: visible;"},
+    {className: "overflow-x-scroll", rules: "overflow-x: scroll;"},
+    {className: "overflow-y-scroll", rules: "overflow-y: scroll;"},
+    {className: "overscroll-auto", rules: "overscroll-behavior: auto;"},
+    {className: "overscroll-contain", rules: "overscroll-behavior: contain;"},
+    {className: "overscroll-none", rules: "overscroll-behavior: none;"},
+    {className: "overscroll-y-auto", rules: "overscroll-behavior-y: auto;"},
+    {className: "overscroll-y-contain", rules: "overscroll-behavior-y: contain;"},
+    {className: "overscroll-y-none", rules: "overscroll-behavior-y: none;"},
+    {className: "overscroll-x-auto", rules: "overscroll-behavior-x: auto;"},
+    {className: "overscroll-x-contain", rules: "overscroll-behavior-x: contain;"},
+    {className: "overscroll-x-none", rules: "overscroll-behavior-x: none;"}
+]

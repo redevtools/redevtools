@@ -16,5 +16,8 @@
   "license": "ISC",
   "devDependencies": {
     "copyfiles": "^2.4.0"
+  },
+  "dependencies": {
+    "vue": "^2.6.12"
   }
 }

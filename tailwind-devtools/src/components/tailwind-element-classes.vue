@@ -73,9 +73,9 @@ export default class TailwindElementClasses extends Vue {
     if (this.currentTokenIndex >= 0) {
       const input = this.$el.querySelectorAll("input")[this.currentTokenIndex]
       if (input && input != document.activeElement) {
-        input.focus()
         input.selectionStart = this.currentSelectionStart
         input.selectionEnd = this.currentSelectionStart
+        input.focus()
       }
     }
   }

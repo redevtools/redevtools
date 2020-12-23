@@ -78,12 +78,13 @@ export default class TailwindDevtool extends Vue {
   showHighlighter = false
 
   focused = false
+  private enabled = false;
 
   beforeCreate() {
     const listener = (e: MouseEvent) => {
       this.unHighlight()
       this.findLastTarget(e)
-      if (e.ctrlKey) {
+      if (e.ctrlKey || this.enabled) {
         this.highlightLatest()
       }
     }
@@ -99,11 +100,12 @@ export default class TailwindDevtool extends Vue {
         setTimeout(() => {
           this.$emit("inspect", {target: this.lastTarget})
           this.inspected = {target: this.lastTarget}
+          this.enabled = false
         })
       }
     })
     const mousemove = throttle(e => {
-      if (e.ctrlKey) {
+      if (e.ctrlKey || this.enabled) {
         if (!this.lastTarget)
           this.findLastTarget(e)
         this.highlightLatest()
@@ -111,16 +113,21 @@ export default class TailwindDevtool extends Vue {
         this.unHighlight()
     }, 50)
     document.addEventListener("mousemove", mousemove)
+    document.addEventListener("keydown", e => {
+      if (e.key == "t" && ['INPUT', 'TEXTAREA'].indexOf(document.activeElement?.tagName ?? '') < 0)
+        this.enabled = !this.enabled
+    })
 
   }
 
   private findLastTarget(e: MouseEvent) {
-    try{
+    try {
       if (e.target && (e.target as HTMLElement).className?.indexOf("redevtools") < 0) {
         this.lastTarget = e.target as any
       }
       // eslint-disable-next-line no-empty
-    } catch {}
+    } catch {
+    }
   }
 
   private updatePopupPosition() {

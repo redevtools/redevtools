@@ -58,6 +58,7 @@ export default class TailwindElementClasses extends Vue {
   private currentTokenIndex = -1
   private currentSelectionStart = -1
   private lastKey = '';
+  private keyIsDown!: KeyboardEvent;
 
   mounted() {
     this.updateInputs()
@@ -72,7 +73,7 @@ export default class TailwindElementClasses extends Vue {
     this.updateAllInputSizes()
     if (this.currentTokenIndex >= 0) {
       const input = this.$el.querySelectorAll("input")[this.currentTokenIndex]
-      if (input && input != document.activeElement) {
+      if (input && input != document.activeElement && (!(this.keyIsDown?.ctrlKey || this.keyIsDown?.shiftKey))) {
         input.selectionStart = this.currentSelectionStart
         input.selectionEnd = this.currentSelectionStart
         input.focus()
@@ -88,9 +89,11 @@ export default class TailwindElementClasses extends Vue {
 
   private onKeyDown(e: KeyboardEvent) {
     this.lastKey = e.key
+    this.keyIsDown = e
   }
 
   private onKeyUp(e: KeyboardEvent) {
+    delete this.keyIsDown
     const input = e.target as HTMLInputElement
     this.currentSelectionStart = (e.target as HTMLInputElement)?.selectionStart ?? -1;
     const inputs = this.$el.querySelectorAll("input")

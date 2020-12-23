@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/61441342/programmatically-created-vue-component-missing-global-properties-defined-on-vue

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg845"
+   sodipodi:docname="icon.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata851">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs849" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1267"
+     inkscape:window-height="1040"
+     id="namedview847"
+     showgrid="false"
+     inkscape:zoom="24.365721"
+     inkscape:cx="13.169643"
+     inkscape:cy="8.3241395"
+     inkscape:window-x="104"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g1447" />
+  <g
+     id="g1447">
+    <path
+       d="m 14.692773,12.857215 c -2.472046,0 -4.017075,1.236023 -4.635087,3.70807 0.927018,-1.236024 2.008538,-1.699532 3.244561,-1.390527 0.70522,0.176134 1.209243,0.688054 1.76717,1.25422 0.908821,0.922555 1.960813,1.990341 4.258444,1.990341 2.472046,0 4.017075,-1.236022 4.635087,-3.708069 -0.927017,1.236023 -2.008538,1.699532 -3.244561,1.390526 -0.70522,-0.176134 -1.209243,-0.688053 -1.76717,-1.254221 -0.908821,-0.922554 -1.960814,-1.99034 -4.258444,-1.99034 z m -4.635087,5.562104 c -2.4720475,0 -4.0170766,1.236024 -4.6350882,3.70807 0.9270174,-1.236023 2.0085378,-1.699532 3.244561,-1.390526 0.70522,0.176477 1.209243,0.688053 1.7671712,1.254221 0.90882,0.922554 1.960814,1.99034 4.258443,1.99034 2.472047,0 4.017076,-1.236023 4.635088,-3.70807 -0.927018,1.236024 -2.008539,1.699532 -3.244561,1.390527 -0.705221,-0.176134 -1.209243,-0.688054 -1.767171,-1.25422 -0.90882,-0.922554 -1.960813,-1.990342 -4.258443,-1.990342 z"
+       id="path843"
+       style="fill:#008080;stroke-width:0.790118"
+       inkscape:export-xdpi="513.63678"
+       inkscape:export-ydpi="513.63678" />
+    <path
+       id="path1983"
+       style="fill:#ff5555;fill-rule:evenodd;stroke:none;stroke-width:2.25091px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 19.06993,0.05790509 7.8637058,1.8662267 V 5.4828702 L 13.467714,3.6745484 7.8637058,10.909627 V 14.52627 L 19.06993,3.6745484 Z M 6.4403228,2.1133043 1.6670701,2.8599084 0.07538919,22.065718 6.4403228,15.885197 Z"
+       inkscape:export-filename="P:\projects\buglink\redevtools.com\wordpress-theme\img\logow.png"
+       inkscape:export-xdpi="513.63678"
+       inkscape:export-ydpi="513.63678" />
+  </g>
+</svg>

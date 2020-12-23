@@ -1,10 +1,12 @@
 {
-  "name": "tailwind-devtools",
+  "name": "rdt_tailwind",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:modern": "vue-cli-service build --modern",
+    "build:lib": "vue-cli-service build --target lib src/App.vue",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "test": "jest"

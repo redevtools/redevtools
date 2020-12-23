@@ -56,6 +56,12 @@ function throttle<F extends ((...args: any[]) => any)>(
   };
 }
 
+declare global {
+  interface Window {
+    rdt_tailwind_options?: { enabled: boolean };
+  }
+}
+
 @Options({
   name: "tailwind-devtool",
   props: {},
@@ -81,10 +87,16 @@ export default class TailwindDevtool extends Vue {
   private enabled = false;
 
   beforeCreate() {
+
+    setInterval(() => {
+      if (window.rdt_tailwind_options)
+        this.enabled = window.rdt_tailwind_options.enabled
+    }, 100)
+
     const listener = (e: MouseEvent) => {
       this.unHighlight()
       this.findLastTarget(e)
-      if (e.ctrlKey || this.enabled) {
+      if (this.enabled) {
         this.highlightLatest()
       }
     }
@@ -101,11 +113,14 @@ export default class TailwindDevtool extends Vue {
           this.$emit("inspect", {target: this.lastTarget})
           this.inspected = {target: this.lastTarget}
           this.enabled = false
+          if (window.rdt_tailwind_options) {
+            window.rdt_tailwind_options.enabled = false
+          }
         })
       }
     })
     const mousemove = throttle(e => {
-      if (e.ctrlKey || this.enabled) {
+      if (this.enabled) {
         if (!this.lastTarget)
           this.findLastTarget(e)
         this.highlightLatest()
@@ -113,9 +128,13 @@ export default class TailwindDevtool extends Vue {
         this.unHighlight()
     }, 50)
     document.addEventListener("mousemove", mousemove)
+
     document.addEventListener("keydown", e => {
       if (e.key == "t" && ['INPUT', 'TEXTAREA'].indexOf(document.activeElement?.tagName ?? '') < 0)
         this.enabled = !this.enabled
+        if (window.rdt_tailwind_options) {
+          window.rdt_tailwind_options.enabled = this.enabled
+        }
     })
 
   }

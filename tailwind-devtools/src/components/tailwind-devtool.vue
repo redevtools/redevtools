@@ -130,11 +130,16 @@ export default class TailwindDevtool extends Vue {
     document.addEventListener("mousemove", mousemove)
 
     document.addEventListener("keydown", e => {
-      if (e.key == "t" && ['INPUT', 'TEXTAREA'].indexOf(document.activeElement?.tagName ?? '') < 0)
+      console.log("key: ", e.key)
+      if (e.key == "Escape") {
+        this.enabled = false
+        this.unHighlight()
+        this.hidePopup()
+      } else if (e.key == "t" && ['INPUT', 'TEXTAREA'].indexOf(document.activeElement?.tagName ?? '') < 0)
         this.enabled = !this.enabled
-        if (window.rdt_tailwind_options) {
-          window.rdt_tailwind_options.enabled = this.enabled
-        }
+      if (window.rdt_tailwind_options) {
+        window.rdt_tailwind_options.enabled = this.enabled
+      }
     })
 
   }

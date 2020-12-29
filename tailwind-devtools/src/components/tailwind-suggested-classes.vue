@@ -29,7 +29,7 @@ import {Suggester} from "@/components/suggester";
   },
   emits: {
     suggestion: {},
-    seleted: {}
+    selected: {}
   }
 })
 export default class TailwindSuggestedClasses extends Vue {

@@ -17,9 +17,8 @@
 
 <script lang="ts">
 import {Options, Vue} from 'vue-class-component';
-import {closest, computeRules, CssClassData, tokensTree} from "@/components/tailwind-classes-parser";
-import {tailwind} from "@/components/tailwind.classes";
-import {Suggester} from "@/components/suggester";
+import {SuggesterWithPresets} from "@/components/presets";
+import {TwSuggestedClass} from "@/components/suggester";
 
 @Options({
   name: "tailwind-suggested-classes",
@@ -38,7 +37,7 @@ export default class TailwindSuggestedClasses extends Vue {
 
   classNameUpToCaret!: string
 
-  suggested: { twClass: string; valuePx?: string; color?: string; highlight?: boolean }[] = []
+  suggested: (TwSuggestedClass & { highlight?: boolean })[] = []
 
   private classIndex = -1;
 
@@ -53,7 +52,7 @@ export default class TailwindSuggestedClasses extends Vue {
   private updateSuggested() {
     this.suggested = []
 
-    this.suggested = new Suggester().suggest(this.className, this.classNameUpToCaret)
+    this.suggested = new SuggesterWithPresets().suggest(this.className, this.classNameUpToCaret)
 
     this.classIndex = -1
 
@@ -69,7 +68,7 @@ export default class TailwindSuggestedClasses extends Vue {
   updateClassHighlight() {
     let se: TailwindSuggestedEvent = {
       className: '',
-      classes: this.suggested.map(s => ({className: s.twClass})),
+      classes: this.suggested.map(s => ({className: s.twClass, presets: s.presets ?? ''})),
       index: -1
     }
     if (this.suggested[this.classIndex]) {
@@ -77,7 +76,8 @@ export default class TailwindSuggestedClasses extends Vue {
       const newClass = this.suggested[this.classIndex].twClass
       se = {
         className: newClass,
-        classes: this.suggested.map(s => ({className: s.twClass})),
+        classes: this.suggested.map(s => ({className: s.twClass, presets: s.presets ?? ''})),
+        presets: this.suggested[this.classIndex].presets ?? '',
         index: this.classIndex
       }
     }
@@ -85,11 +85,12 @@ export default class TailwindSuggestedClasses extends Vue {
 
   }
 
-  suggest(t: { twClass: string }, index: number) {
+  suggest(t: TwSuggestedClass[], index: number) {
     this.classIndex = index
     this.$emit("selected", {
       className: this.suggested[this.classIndex].twClass,
-      classes: this.suggested.map(s => ({className: s.twClass})),
+      classes: this.suggested.map(s => ({className: s.twClass, presets: s.presets ?? ''})),
+      presets: this.suggested[this.classIndex].presets ?? '',
       index: this.classIndex
     })
     this.updateClassHighlight()
@@ -98,10 +99,12 @@ export default class TailwindSuggestedClasses extends Vue {
 
 }
 
+
 export interface TailwindSuggestedEvent {
   className: string;
-  classes: { className: string }[];
+  classes: { className: string, presets?: string }[];
   index: number;
+  presets?: string;
 }
 
 </script>

@@ -7,6 +7,8 @@
     "build": "vue-cli-service build",
     "build:modern": "vue-cli-service build --modern",
     "build:lib": "vue-cli-service build --target lib src/App.vue",
+    "build:extension-dev": "npm run build:lib && cp dist/rdt_tailwind.umd.js extension/rdt_tailwind.umd.min.js",
+    "build:extension-prod": "npm run build:lib && cp dist/rdt_tailwind.umd.min.js extension/rdt_tailwind.umd.min.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "test": "jest"

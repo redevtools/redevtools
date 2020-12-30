@@ -62,23 +62,26 @@ export default class TailwindPopup extends Vue {
     setTimeout(() => {
       const popup = this.$refs.popup
       const arrowUp = this.$refs.arrowUp
-      arrowUp.style.left = `calc(50% - 6px)`
-      const box = this.target.target.getBoundingClientRect()
-      if (popup) {
-        const popupBox = popup.getBoundingClientRect()
-        let computed = box.left + box.width - Math.round(box.width / 2) - Math.round(popupBox.width / 2)
-        const max = window.innerWidth - popupBox.width - 10
-        const min = popupBox.width + 10
-        if (computed > max) {
-          computed = max
-          arrowUp.style.left = `calc(80% - 6px)`
+
+      if (arrowUp) {
+        arrowUp.style.left = `calc(50% - 6px)`
+        const box = this.target.target.getBoundingClientRect()
+        if (popup) {
+          const popupBox = popup.getBoundingClientRect()
+          let computed = box.left + box.width - Math.round(box.width / 2) - Math.round(popupBox.width / 2)
+          const max = window.innerWidth - popupBox.width - 10
+          const min = popupBox.width + 10
+          if (computed > max) {
+            computed = max
+            arrowUp.style.left = `calc(80% - 6px)`
+          }
+          if (computed < min) {
+            computed = 10
+            arrowUp.style.left = `calc(20% - 6px)`
+          }
+          popup.style.left = computed + 'px'
+          popup.style.top = (box.top + box.height + 12) + 'px'
         }
-        if (computed < min) {
-          computed = 10
-          arrowUp.style.left = `calc(20% - 6px)`
-        }
-        popup.style.left = computed + 'px'
-        popup.style.top = (box.top + box.height + 12) + 'px'
       }
     })
   }

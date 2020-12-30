@@ -7,14 +7,9 @@ export class Suggester {
     suggest(className: string, classNameUpToCaret: string) {
         const prefix = this.prefix(className);
 
-        function removePrefix() {
-            if (prefix.length > 0) {
-                className = className.replace(prefix + ":", '');
-                classNameUpToCaret = classNameUpToCaret.replace(prefix + ":", '');
-            }
-        }
+        className = this.removePrefix(className, prefix)
+        classNameUpToCaret = this.removePrefix(classNameUpToCaret, prefix)
 
-        removePrefix()
 
         if (classNameUpToCaret == '')
             classNameUpToCaret = className
@@ -42,6 +37,10 @@ export class Suggester {
             }
         }
         return this.mapToTwClasses(suggested, prefix)
+    }
+
+    protected removePrefix(c: string, prefix: string) {
+        return prefix.length > 0 ? c.replace(prefix + ":", '') : c;
     }
 
     private startingWith(className: string) {
@@ -166,7 +165,7 @@ export class Suggester {
         return {tokens, currentTokenIndex};
     }
 
-    private prefix(className: string) {
+    protected prefix(className: string) {
         let prefix = ''
         if (className.indexOf(":") >= 0) {
             prefix = className.split(":")[0]
@@ -174,7 +173,7 @@ export class Suggester {
         return prefix
     }
 
-    private mapToTwClasses(relevant: CssClassData[], prefix = '') {
+    private mapToTwClasses(relevant: CssClassData[], prefix = ''): TwSuggestedClass[] {
         return relevant.map((c: CssClassData) => {
             const computed = computeRules(c.rules)
             let color = ''
@@ -214,4 +213,11 @@ export class Suggester {
         const {node, level} = this.nodeFor(className)
         return node != this.node && currentTokenIndex == level
     }
+}
+
+export interface TwSuggestedClass {
+    twClass: string;
+    color?: string;
+    valuePx?: string;
+    presets?: string;
 }

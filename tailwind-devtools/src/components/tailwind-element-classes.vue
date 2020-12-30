@@ -69,6 +69,12 @@ export default class TailwindElementClasses extends Vue {
     this.inputs = [...this.classes, {className: ''}]
   }
 
+  moveToLastInput() {
+    this.currentTokenIndex = this.classes.length
+    const inputs = [...this.$el.querySelectorAll("input")]
+    inputs[inputs.length - 1]?.focus()
+  }
+
   updated() {
     this.updateAllInputSizes()
     if (this.currentTokenIndex >= 0) {

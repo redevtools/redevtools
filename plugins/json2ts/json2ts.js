@@ -201,3 +201,4 @@ function copyToClipboard(text) {
         document.body.removeChild(textArea);
     }, 500);
 }
+//# sourceMappingURL=json2ts.js.map

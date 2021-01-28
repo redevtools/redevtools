@@ -4,9 +4,7 @@
   "version": "1.0.1",
   "manifest_version": 2,
   "permissions": [
-    "activeTab",
-    "tabs",
-    "*://*/*"
+    "activeTab"
   ],
   "background": {
     "scripts": [

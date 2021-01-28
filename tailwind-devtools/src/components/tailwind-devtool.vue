@@ -117,6 +117,10 @@ export default class TailwindDevtool extends Vue {
             window.rdt_tailwind_options.enabled = false
           }
         })
+        e.preventDefault()
+        e.stopPropagation()
+        e.stopImmediatePropagation()
+        return false
       }
     })
     const mousemove = throttle(e => {

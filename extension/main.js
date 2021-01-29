@@ -1,3 +1,4 @@
 import {redevtools} from './index.js';
-console.log("redevtools",redevtools)
-redevtools.init();
+
+let re = redevtools.init();
+console.log("redevtools", re)

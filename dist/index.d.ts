@@ -36,7 +36,17 @@ declare class ReDevToolsHookRegistry {
 }
 declare global {
     interface Window {
-        re: (ReDevTools & Json & {
+        re?: (ReDevTools & Json & {
+            hooks: ReDevToolsHookRegistry;
+            registry: ReDevToolsMethodRegistry;
+            methods: any;
+        });
+        red?: (ReDevTools & Json & {
+            hooks: ReDevToolsHookRegistry;
+            registry: ReDevToolsMethodRegistry;
+            methods: any;
+        });
+        redevtools: (ReDevTools & Json & {
             hooks: ReDevToolsHookRegistry;
             registry: ReDevToolsMethodRegistry;
             methods: any;

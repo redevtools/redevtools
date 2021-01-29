@@ -17,7 +17,7 @@
     }
     re.json2ts = json2ts;
     re.json2ts.version = "1.0";
-})(window.re);
+})(window.redevtools);
 function isObject(x) {
     return Object.prototype.toString.call(x) === "[object Object]" && x !== null;
 }
@@ -187,6 +187,8 @@ function copyToClipboard(text) {
     textArea.value = text;
     textArea.style.top = "0";
     textArea.style.left = "0";
+    textArea.style.width = "0px";
+    textArea.style.height = "0px";
     textArea.style.position = "fixed";
     document.body.appendChild(textArea);
     textArea.focus();
@@ -197,7 +199,9 @@ function copyToClipboard(text) {
     catch (err) {
         return false;
     }
-    setTimeout(() => {
-        document.body.removeChild(textArea);
-    }, 500);
+    finally {
+        setTimeout(() => {
+            document.body.removeChild(textArea);
+        }, 500);
+    }
 }

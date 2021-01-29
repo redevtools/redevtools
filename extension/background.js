@@ -28,7 +28,9 @@ var disableCSP = function (tabId) {
 var onHeadersReceived = function (details) {
 
     for (var i = 0; i < details.responseHeaders.length; i++) {
-        if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
+        let h = details.responseHeaders[i].name.toLowerCase()
+        if (h === 'content-security-policy' || h === 'content-security-policy-report-only') {
+            console.log("h: ",h)
             details.responseHeaders[i].value = '';
         }
     }

@@ -123,7 +123,7 @@ const proxy = {
         try {
             await loadPlugin(f.plugin);
             if (f.plugin.loaded)
-                return window.re[f.plugin.name](...args);
+                return window.redevtools[f.plugin.name](...args);
         }
         catch (e) {
             loge("PLUGIN", "Could not load ", f.plugin.name);
@@ -171,8 +171,21 @@ class ReDevTools {
 export const redevtools = {
     init: () => {
         const re = new ReDevTools();
-        logi("ReDevTools", `Type \`re. \` to discover available plugins. More info at https://redevtools.com`);
-        window.re = re;
+        if (window.re) {
+            window.re = new Proxy(window.re, {
+                apply(target, thisArg, argArray) {
+                    return target.bind(thisArg).apply(argArray);
+                },
+                get(target, p, receiver) {
+                    return re[p];
+                }
+            });
+        }
+        else {
+            window.re = re;
+        }
+        logi("ReDevtools", `Type \`re. \` to discover available plugins. More info at https://redevtools.com`);
+        window.redevtools = re;
         return re;
     }
 };
@@ -198,8 +211,8 @@ function Re() {
         // @ts-ignore
         let originalMethod = descriptor.value;
         descriptor.value = function (...args) {
-            if (!window.re.registry.has(propertyKey))
-                window.re.registry.setMethod(propertyKey, descriptor.value, originalMethod, this);
+            if (!window.redevtools.registry.has(propertyKey))
+                window.redevtools.registry.setMethod(propertyKey, descriptor.value, originalMethod, this);
             let hookData = {
                 functionName: propertyKey,
                 functionReference: descriptor.value,
@@ -211,7 +224,7 @@ function Re() {
                 skipExecution: false,
                 replaceReturned: false
             };
-            let returnedByHook = window.re.hooks.fireHookEvent(hookData);
+            let returnedByHook = window.redevtools.hooks.fireHookEvent(hookData);
             if (hookData.replaceReturned)
                 return returnedByHook;
             if (hookData.skipExecution)

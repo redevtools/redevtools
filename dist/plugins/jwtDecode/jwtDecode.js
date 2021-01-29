@@ -9,4 +9,4 @@
     re.jwtDecode = json => parse(json);
     re.jwtDecode.header = json => parse(json, 0);
     re.jwtDecode.version = "1.0";
-})(window.re);
+})(window.redevtools);

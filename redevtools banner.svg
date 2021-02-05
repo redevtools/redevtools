@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg847"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="redevtools banner.svg">
+  <defs
+     id="defs841">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1427">
+      <stop
+         style="stop-color:#ff5555;stop-opacity:1"
+         offset="0"
+         id="stop1423" />
+      <stop
+         style="stop-color:#ffaaaa;stop-opacity:1;"
+         offset="0.78861773"
+         id="stop1465" />
+      <stop
+         style="stop-color:#ffb6b6;stop-opacity:1;"
+         offset="0.90428036"
+         id="stop1463" />
+      <stop
+         style="stop-color:#ffc9c9;stop-opacity:1;"
+         offset="0.99234813"
+         id="stop1455" />
+      <stop
+         style="stop-color:#fff9f9;stop-opacity:1"
+         offset="1"
+         id="stop1425" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1427"
+       id="linearGradient1429"
+       x1="153.47853"
+       y1="701.99756"
+       x2="231.41721"
+       y2="186.87143"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="400"
+     inkscape:cy="946.74445"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata844">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#linearGradient1429);stroke:none;stroke-width:0.47325;stroke-linecap:round;fill-opacity:1"
+       id="rect1410"
+       width="541.86664"
+       height="304.79999"
+       x="-131.51552"
+       y="3.0439835"
+       rx="0"
+       ry="0"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <g
+       inkscape:label="Layer 1"
+       id="layer1-6"
+       transform="matrix(2.7529265,0,0,2.7529265,106.38268,113.99762)">
+      <rect
+         style="opacity:0.01;fill:#ff5555;stroke-width:1.43904;stroke-linecap:round"
+         id="rect843"
+         width="24"
+         height="24"
+         x="0"
+         y="0"
+         inkscape:export-filename="P:\projects\buglink\redevtools.com\wordpress-theme\img\favicon.png"
+         inkscape:export-xdpi="1024"
+         inkscape:export-ydpi="1024" />
+      <path
+         id="path1983"
+         style="fill:#ff5555;fill-rule:evenodd;stroke:none;stroke-width:1.8418px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 19.771107,2.996094 10.601654,4.4757466 V 7.435052 L 15.187113,5.9553993 10.601654,11.875475 V 14.83478 L 19.771107,5.9553993 Z M 9.4369775,4.677917 5.5312808,5.2888231 4.2288935,21.003906 9.4369775,15.946717 Z"
+         inkscape:export-filename="P:\projects\buglink\redevtools.com\wordpress-theme\img\logow.png"
+         inkscape:export-xdpi="298.19098"
+         inkscape:export-ydpi="298.19098" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:37.9092px;line-height:0px;font-family:'Snap ITC';-inkscape-font-specification:'Snap ITC Bold';letter-spacing:0px;word-spacing:0px;fill:#ff5555;fill-opacity:1;stroke:#000000;stroke-width:0.592331px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-97.714432"
+       y="248.69135"
+       id="text1433"><tspan
+         sodipodi:role="line"
+         id="tspan1431"
+         x="-97.714432"
+         y="248.69135"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#d80000;fill-opacity:1;stroke:none;stroke-width:0.592331px">Front-end development tools</tspan><tspan
+         sodipodi:role="line"
+         x="-97.714432"
+         y="249.99745"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#ff5555;fill-opacity:1;stroke:none;stroke-width:0.592331px"
+         id="tspan1437" /><tspan
+         sodipodi:role="line"
+         x="-97.714432"
+         y="249.99745"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#ff5555;fill-opacity:1;stroke:none;stroke-width:0.592331px"
+         id="tspan1435" /></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:24.4686px;line-height:0px;font-family:'Snap ITC';-inkscape-font-specification:'Snap ITC Bold';letter-spacing:0px;word-spacing:0px;fill:#333333;stroke:#000000;stroke-width:0.382322px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-78.945236"
+       y="279.18829"
+       id="text1445"><tspan
+         sodipodi:role="line"
+         id="tspan1439"
+         x="-78.945236"
+         y="279.18829"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#333333;stroke:none;stroke-width:0.382322px">to improve the development experience</tspan><tspan
+         sodipodi:role="line"
+         x="-78.945236"
+         y="280.03131"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#333333;stroke:none;stroke-width:0.382322px"
+         id="tspan1441" /><tspan
+         sodipodi:role="line"
+         x="-78.945236"
+         y="280.03131"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#333333;stroke:none;stroke-width:0.382322px"
+         id="tspan1443" /></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:37.9092px;line-height:0px;font-family:'Snap ITC';-inkscape-font-specification:'Snap ITC Bold';letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;stroke:#000000;stroke-width:0.592331px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;"
+       x="44.82991"
+       y="199.55444"
+       id="text1453"><tspan
+         sodipodi:role="line"
+         id="tspan1447"
+         x="44.82991"
+         y="199.55444"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#1a1a1a;stroke:none;stroke-width:0.592331px;fill-opacity:1;">ReDevtools</tspan><tspan
+         sodipodi:role="line"
+         x="44.82991"
+         y="200.86055"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#1a1a1a;stroke:none;stroke-width:0.592331px;fill-opacity:1;"
+         id="tspan1449" /><tspan
+         sodipodi:role="line"
+         x="44.82991"
+         y="200.86055"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93 Bold';fill:#1a1a1a;stroke:none;stroke-width:0.592331px;fill-opacity:1;"
+         id="tspan1451" /></text>
+    <g
+       id="g1479"
+       transform="matrix(1.6749965,0,0,1.6749965,-276.97035,-9.7986701)"
+       style="opacity:0.27096774">
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.432329;stroke-linecap:round"
+         id="rect1467"
+         width="86.934525"
+         height="86.934525"
+         x="248.89226"
+         y="-239.28682"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.224931;stroke-linecap:round"
+         id="rect1469"
+         width="45.23003"
+         height="45.23003"
+         x="282.57819"
+         y="-170.60132"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.224931;stroke-linecap:round"
+         id="rect1471"
+         width="45.23003"
+         height="45.23003"
+         x="346.01688"
+         y="-178.97234"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.597184;stroke-linecap:round"
+         id="rect1473"
+         width="120.08425"
+         height="120.08425"
+         x="240.54085"
+         y="-222.89606"
+         transform="rotate(46.282519)" />
+    </g>
+    <g
+       id="g1489"
+       transform="matrix(1.6749965,0,0,1.6749965,-530.97035,-9.7986701)"
+       style="opacity:0.18064516">
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.432329;stroke-linecap:round"
+         id="rect1481"
+         width="86.934525"
+         height="86.934525"
+         x="248.89226"
+         y="-239.28682"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.224931;stroke-linecap:round"
+         id="rect1483"
+         width="45.23003"
+         height="45.23003"
+         x="282.57819"
+         y="-170.60132"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.224931;stroke-linecap:round"
+         id="rect1485"
+         width="45.23003"
+         height="45.23003"
+         x="346.01688"
+         y="-178.97234"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.597184;stroke-linecap:round"
+         id="rect1487"
+         width="120.08425"
+         height="120.08425"
+         x="240.54085"
+         y="-222.89606"
+         transform="rotate(46.282519)" />
+    </g>
+    <g
+       id="g1499"
+       transform="matrix(1.0026717,0,0,1.0026717,-218.05457,118.93194)"
+       style="opacity:0.62903226">
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.432329;stroke-linecap:round"
+         id="rect1491"
+         width="86.934525"
+         height="86.934525"
+         x="248.89226"
+         y="-239.28682"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.224931;stroke-linecap:round"
+         id="rect1493"
+         width="45.23003"
+         height="45.23003"
+         x="282.57819"
+         y="-170.60132"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.224931;stroke-linecap:round"
+         id="rect1495"
+         width="45.23003"
+         height="45.23003"
+         x="346.01688"
+         y="-178.97234"
+         transform="rotate(46.282519)" />
+      <rect
+         style="fill:#d80000;fill-opacity:0.0725806;stroke:none;stroke-width:0.597184;stroke-linecap:round"
+         id="rect1497"
+         width="120.08425"
+         height="120.08425"
+         x="240.54085"
+         y="-222.89606"
+         transform="rotate(46.282519)" />
+    </g>
+  </g>
+</svg>

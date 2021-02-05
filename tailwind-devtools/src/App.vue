@@ -1,8 +1,5 @@
 <template>
-
   <tailwind-devtool @inspect="log"/>
-
-
 </template>
 
 <script lang="ts">

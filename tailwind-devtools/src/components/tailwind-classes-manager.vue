@@ -56,7 +56,7 @@ export function copyToClipboard(text: string) {
     inspect: {target: HTMLElement}
   },
   emits: {
-    updated: {}
+    classUpdate: {}
   },
   components: {TailwindElementClasses, TailwindClassRules, TailwindSuggestedClasses}
 })
@@ -82,7 +82,7 @@ export default class TailwindClassesManager extends Vue {
 
   private updateClasses() {
     const className = this.inspect.target?.className
-    if (className) {
+    if (className && className.split) { //svg may have className that is not a list
       const classes = className.split(" ")
       this.classes = classes.filter(c => c.length > 0).map(c => {
         const foundRules = tailwind.all.filter(t => t.className == c)
@@ -100,8 +100,9 @@ export default class TailwindClassesManager extends Vue {
       this.updateClassesWithNewSuggestion(event);
     } else if (event.lastKey != "ArrowLeft" && event.lastKey != "ArrowRight") {
       this.updateActiveClassRules(event);
-    }
-    this.$emit("updated")
+    } else
+      this.updateActiveClassRules(event);
+    this.$emit("classUpdate")
   }
 
   private updateActiveClassRules(event: TokensUpdateEvent) {
@@ -117,7 +118,7 @@ export default class TailwindClassesManager extends Vue {
     if (newClass) {
       this.updateSuggestion(newClass, event.value)
       this.activeClass = newClass.className
-      this.classNameUpToCaret = event.valueUpToCaret
+      this.classNameUpToCaret = newClass.className
     }
   }
 

@@ -12,7 +12,11 @@
 
   <div ref="popup">
     <tailwind-popup v-if="inspected" :target="inspected" @mouseleave="hidePopup" @mousedown="setFocused" ref="twpopup">
-      <tailwind-classes-manager :inspect="inspected" @updated="updatePopupPosition()"></tailwind-classes-manager>
+      <tailwind-breadcrumb :target="inspected"
+                           @breadcrumbTokenEnter="highlight($event)"
+                           @breadcrumbTokenLeave="unHighlight()"
+                           @breadcrumbUpdated="targetUpdated($event)"></tailwind-breadcrumb>
+      <tailwind-classes-manager :inspect="inspected" @classUpdate="updatePopupPosition()"></tailwind-classes-manager>
     </tailwind-popup>
   </div>
 
@@ -22,7 +26,7 @@
 import {Options, Vue} from 'vue-class-component';
 import TailwindPopup from "@/components/tailwind-popup.vue";
 import TailwindClassesManager from "@/components/tailwind-classes-manager.vue";
-import TailwindElementClasses from "@/components/tailwind-element-classes.vue";
+import TailwindBreadcrumb from "@/components/tailwind-breadcrumb.vue";
 
 
 function throttle<F extends ((...args: any[]) => any)>(
@@ -68,7 +72,7 @@ declare global {
   emits: {
     inspect: {target: HTMLElement}
   },
-  components: {TailwindPopup, TailwindClassesManager}
+  components: {TailwindPopup, TailwindClassesManager, TailwindBreadcrumb}
 })
 export default class TailwindDevtool extends Vue {
   private lastTarget!: HTMLElement;
@@ -94,7 +98,8 @@ export default class TailwindDevtool extends Vue {
     }, 100)
 
     const listener = (e: MouseEvent) => {
-      this.unHighlight()
+      if (this.enabled)
+        this.unHighlight()
       this.findLastTarget(e)
       if (this.enabled) {
         this.highlightLatest()
@@ -128,7 +133,7 @@ export default class TailwindDevtool extends Vue {
         if (!this.lastTarget)
           this.findLastTarget(e)
         this.highlightLatest()
-      } else
+      } else if (this.enabled)
         this.unHighlight()
     }, 50)
     document.addEventListener("mousemove", mousemove)
@@ -169,19 +174,23 @@ export default class TailwindDevtool extends Vue {
   private highlightLatest() {
     if (!this.showHighlighter && this.lastTarget) {
       this.showHighlighter = true
-      const box = this.lastTarget?.getBoundingClientRect()
-      if (box) {
-        setTimeout(() => {
-          const highlighter = this.$refs.highlighter
-          if (highlighter) {
-            highlighter.style.width = box.width + 'px'
-            highlighter.style.height = box.height + 'px'
-            highlighter.style.top = box.top + 'px'
-            highlighter.style.left = box.left + 'px'
-          }
-        })
-      }
+      this.highlight(this.lastTarget)
+    }
+  }
 
+  private highlight(target) {
+    this.showHighlighter = true
+    const box = target?.getBoundingClientRect()
+    if (box) {
+      setTimeout(() => {
+        const highlighter = this.$refs.highlighter
+        if (highlighter) {
+          highlighter.style.width = box.width + 'px'
+          highlighter.style.height = box.height + 'px'
+          highlighter.style.top = box.top + 'px'
+          highlighter.style.left = box.left + 'px'
+        }
+      })
     }
   }
 
@@ -198,6 +207,14 @@ export default class TailwindDevtool extends Vue {
 
   private setFocused() {
     this.focused = true
+  }
+
+  targetUpdated(element: HTMLElement) {
+    this.unHighlight()
+    this.inspected = null
+    setTimeout(() => {
+      this.inspected = {target: element}
+    })
   }
 }
 

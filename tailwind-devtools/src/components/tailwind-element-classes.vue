@@ -58,7 +58,7 @@ export default class TailwindElementClasses extends Vue {
   private currentTokenIndex = -1
   private currentSelectionStart = -1
   private lastKey = '';
-  private keyIsDown!: KeyboardEvent;
+  private keyIsDown: KeyboardEvent | undefined;
 
   mounted() {
     this.updateInputs()

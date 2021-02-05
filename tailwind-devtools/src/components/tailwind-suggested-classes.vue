@@ -102,7 +102,7 @@ export default class TailwindSuggestedClasses extends Vue {
 
 export interface TailwindSuggestedEvent {
   className: string;
-  classes: { className: string, presets?: string }[];
+  classes: { className: string; presets?: string }[];
   index: number;
   presets?: string;
 }

@@ -1,7 +1,7 @@
 {
   "name": "Tailwind Devtools Inspector",
   "description": "Tailwind Devtools for Chrome - by Buglink and ReDevtools",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "manifest_version": 2,
   "permissions": [
     "activeTab"

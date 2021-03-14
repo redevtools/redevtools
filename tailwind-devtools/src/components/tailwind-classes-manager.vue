@@ -81,7 +81,10 @@ export default class TailwindClassesManager extends Vue {
   }
 
   private updateClasses() {
-    const className = this.inspect.target?.className
+    let className = this.inspect.target?.className ?? ''
+    if (this.isSvgTag(this.inspect.target?.tagName?.toLowerCase())) {
+      className = this.inspect.target?.getAttribute("class") ?? ''
+    }
     if (className && className.split) { //svg may have className that is not a list
       const classes = className.split(" ")
       this.classes = classes.filter(c => c.length > 0).map(c => {
@@ -89,6 +92,82 @@ export default class TailwindClassesManager extends Vue {
         return foundRules[0] ?? {className: c, rules: ''}
       }).filter(c => c)
     }
+  }
+
+  private isSvgTag(tag: string) {
+    return ["path",
+      "animate",
+      "animateMotion",
+      "animateTransform",
+      "circle",
+      "clipPath",
+      "color-profile",
+      "defs",
+      "desc",
+      "discard",
+      "ellipse",
+      "feBlend",
+      "feColorMatrix",
+      "feComponentTransfer",
+      "feComposite",
+      "feConvolveMatrix",
+      "feDiffuseLighting",
+      "feDisplacementMap",
+      "feDistantLight",
+      "feDropShadow",
+      "feFlood",
+      "feFuncA",
+      "feFuncB",
+      "feFuncG",
+      "feFuncR",
+      "feGaussianBlur",
+      "feImage",
+      "feMerge",
+      "feMergeNode",
+      "feMorphology",
+      "feOffset",
+      "fePointLight",
+      "feSpecularLighting",
+      "feSpotLight",
+      "feTile",
+      "feTurbulence",
+      "filter",
+      "foreignObject",
+      "g",
+      "hatch",
+      "hatchpath",
+      "image",
+      "line",
+      "linearGradient",
+      "marker",
+      "mask",
+      "mesh",
+      "meshgradient",
+      "meshpatch",
+      "meshrow",
+      "metadata",
+      "mpath",
+      "path",
+      "pattern",
+      "polygon",
+      "polyline",
+      "radialGradient",
+      "rect",
+      "script",
+      "set",
+      "solidcolor",
+      "stop",
+      "style",
+      "svg",
+      "switch",
+      "symbol",
+      "text",
+      "textPath",
+      "title",
+      "tspan",
+      "unknown",
+      "use",
+      "view"].indexOf(tag) >= 0
   }
 
 
@@ -106,7 +185,7 @@ export default class TailwindClassesManager extends Vue {
   }
 
   private updateActiveClassRules(event: TokensUpdateEvent) {
-    this.inspect.target.className = event.values.join(" ")
+    this.inspect.target.setAttribute("class", event.values.join(" "))
     this.activeClass = event.value;
     this.classNameUpToCaret = event.valueUpToCaret
   }
@@ -123,12 +202,12 @@ export default class TailwindClassesManager extends Vue {
   }
 
   private updateInputWithNewClass(newClass: string) {
-    const classes = this.inspect.target.className.split(" ")
+    const classes = (this.inspect.target.getAttribute("class") ?? '').split(" ")
     if (classes[this.tokenIndex]) {
       classes[this.tokenIndex] = newClass
-      this.inspect.target.className = classes.join(" ")
+      this.inspect.target.setAttribute("class", classes.join(" "))
     } else
-      this.inspect.target.classList.add(newClass)
+      this.inspect.target.setAttribute("class", classes.join(" ") + " " + newClass)
 
   }
 
@@ -160,7 +239,7 @@ export default class TailwindClassesManager extends Vue {
   }
 
   private copyClasses() {
-    copyToClipboard(this.classes.map(c => c.className).join(" "))
+    copyToClipboard(this.classes.map(c => c.className).filter(c => !c.startsWith("ng-")).join(" "))
   }
 
 

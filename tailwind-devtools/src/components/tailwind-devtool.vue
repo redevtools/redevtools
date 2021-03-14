@@ -118,6 +118,7 @@ export default class TailwindDevtool extends Vue {
           this.$emit("inspect", {target: this.lastTarget})
           this.inspected = {target: this.lastTarget}
           this.enabled = false
+          this.showHighlighter = false
           if (window.rdt_tailwind_options) {
             window.rdt_tailwind_options.enabled = false
           }

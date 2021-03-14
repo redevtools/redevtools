@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     /* Basic Options */
     // "incremental": true,                   /* Enable incremental compilation */
     "target": "esnext",

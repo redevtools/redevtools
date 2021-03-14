@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "ES5",
+    "module": "CommonJS",
+    "lib": [
+      "esnext"
+    ],
+    "moduleResolution": "Node",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "outDir": "./dist",
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true
+    /* Disallow inconsistently-cased references to the same file. */
+  },
+  "include": ["src"],
+  "exclude": [
+    "dist"
+  ]
+}

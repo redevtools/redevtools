@@ -47,6 +47,7 @@ const positions = [
 ]
 
 const custom = [
+    {twClass: "center-children-vertically", presets: "flex items-center flex-wrap"},
     {twClass: "basic-top-navbar", presets: "fixed top-0 left-0 w-full h-8 bg-gray-50 shadow p-1"},
     {twClass: "basic-link", presets: "mx-2 text-blue-300 hover:underline hover:text-blue-800 cursor-pointer"},
 ]

@@ -2,51 +2,27 @@
 Extends the browser devtools with custom plugins directly from your localhost:
 
 Some examples:
-- browse and edit requests from the console
-- hook into methods and debug them easily
 - transform JSON object to TypeScript interfaces
-- Show in page Web Components and their status
+- convert a JWT token to plan JSON
 
 Every plugin is available in the plugins directory of this repo
 
 ## Getting started
 
 ### Step 1
-To install ReDevTools
+You don't have to install ReDevTools. Just type this code into your console
 
-```npm install redevtools```
-
-This command install just the base tool without any plugin (just few KB). 
-
-### Step 2
-Then in your project:
-
-```typescript
-import {redevtools} from "redevtools";
-redevtools.init()
+```javascript
+import("//r8s.io")
 ```
 
-The *init* method will download the [plugins/plugins.json](https://github.com/redevtools/redevtools/blob/main/plugins/plugins.json).
+That's all (6KB)
 
-You can see every available plugin by typing `re.` into the console.
+### Step 2 (optional)
+If you want to have it ready into your project, save the line above somewhere:
 
-**ReDevTools is lazy**: When you call a plugin for the first time, only then the plugin gets downloaded.
-
-## Methods
-Some plugins are hooks into your source code class methods.
-To enable any of your methods to be hooked add the @Re decorator:
-
-```typescript
-@Re()
-myMethod(args) {
-...
-}
+```javascript
+if(window.location.href.indexOf("localhost") >= 0)
+    import("//r8s.io")
 ```
-
-Every hooked method can be called anytime in the console by using:
-
-```re.methods.myMethod(args)```
-
-The `this` inside the method is the same `this` of the class instance. 
-
 

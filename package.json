@@ -1,21 +1,21 @@
 {
   "name": "redevtools",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "ReDevTools extends your browser devtools with custom plugins",
   "main": "dist/index.js",
   "homepage": "https://www.redevtools.com",
   "repository": "https://github.com/redevtools/redevtools",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && copyfiles \"./plugins/**/*.gif\" dist && copyfiles \"./plugins/*.json\" dist",
-    "watch": "tsc --watch",
+    "build": "node esbuild",
     "prepare": "npm run build"
   },
   "keywords": [],
-  "author": "Buglink.com Team",
+  "author": "ButOpen Team",
   "license": "ISC",
   "devDependencies": {
-    "copyfiles": "^2.4.0"
+    "esbuild": "^0.14.21",
+    "typescript": "^4.5.5"
   },
   "dependencies": {
     "@types/node": "^14.14.22"

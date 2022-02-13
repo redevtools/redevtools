@@ -6,21 +6,30 @@
  *
  *
  */
+import {RDTPlugin} from "../../redevtools.model";
 
-declare var copy;
-;
-(async (re) => {
-        async function json2ts(json) {
-            let ts = new Json2Ts().convert(json)
-            console.log(ts)
-            if (copyToClipboard(ts))
-                console.log("Code is in your clipboard 😉");
-        }
-
-        re.json2ts = json2ts
-        re.json2ts.version = "1.0"
+export default () => {
+    async function json2ts(json) {
+        let ts = new Json2Ts().convert(json)
+        console.log(ts)
+        if (copyToClipboard(ts))
+            console.log("Code is in your clipboard 😉");
     }
-)(window.redevtools);
+
+    json2ts.version = "1.0"
+    json2ts.info = {
+        "name": "json2ts",
+        "params": {
+            "json": "The JSON object to convert into TypeScript interfaces"
+        },
+        "example": "re.json2ts({user: 'me', age: 36})",
+        "description": "A plugin to convert a JSON object to TypeScript interface. The result is automatically copied into the clipboard.",
+        "readme": "https://www.redevtools.com/blog/convert-json-to-typescript-interface-from-the-console/",
+        "preview": "https://raw.githubusercontent.com/redevtools/redevtools/main/plugins/json2ts/preview.gif"
+    }
+
+    return json2ts as unknown as RDTPlugin
+}
 
 function isObject(x) {
     return Object.prototype.toString.call(x) === "[object Object]" && x !== null;

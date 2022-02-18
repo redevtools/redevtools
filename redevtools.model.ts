@@ -3,6 +3,7 @@
 export class ReDevTools {
     json2ts!: RDTPlugin
     jwtDecode!: RDTPlugin
+    tailwind!: RDTPlugin
     info!: {[plugin:string]: ()=>void}
 
 }

@@ -23,6 +23,6 @@ If you want to have it ready into your project, save the line above somewhere:
 
 ```javascript
 if(window.location.href.indexOf("localhost") >= 0)
-    import("//r8s.io")
+    document.head.appendChild(document.createElement("script")).src = "//r8s.io"
 ```
 

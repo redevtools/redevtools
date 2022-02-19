@@ -1,17 +1,19 @@
 import {RDTPlugin} from "../../redevtools.model";
 import {RDTStorage} from "../../shared/storage.util";
+import {scriptLoad} from "../../shared/script-load.util";
 
 const R8S_TAILWIND_STORAGE = "R8S_TAILWIND_STORAGE"
 let tailwindStorage = new RDTStorage(R8S_TAILWIND_STORAGE)
-let enabled = false
-const alreadyPresent = document.querySelector('script[src="//r8s.io/tailwind.js"]')
-if (!alreadyPresent)
-    document.head.appendChild(document.createElement("script")).src = "//r8s.io/tailwind.js"
+let enabled = false;
 
-tailwindStorage.withStorage<{ iconEnabled: boolean }>(s => {
-    if(s.local.iconEnabled)
-        (window as any).r8sTailwindInspector.enableTwIcon()
-})
+(async ()=>{
+    await scriptLoad("//r8s.io/tailwind.js");
+    tailwindStorage.withStorage<{ iconEnabled: boolean }>(s => {
+        if(s.local.iconEnabled)
+            (window as any).r8sTailwindInspector.enableTwIcon()
+    })
+})()
+
 
 
 export default () => {

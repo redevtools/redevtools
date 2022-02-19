@@ -6,19 +6,23 @@ const R8S_TAILWIND_STORAGE = "R8S_TAILWIND_STORAGE"
 let tailwindStorage = new RDTStorage(R8S_TAILWIND_STORAGE)
 let enabled = false;
 
-(async ()=>{
+(async () => {
     await scriptLoad("//r8s.io/tailwind.js");
     tailwindStorage.withStorage<{ iconEnabled: boolean }>(s => {
-        if(s.local.iconEnabled)
+        if (s.local.iconEnabled)
             (window as any).r8sTailwindInspector.enableTwIcon()
     })
+    setTimeout(() => {
+        const twConfigScript = document.createElement("script")
+        twConfigScript.text = `tailwind.config = {important: true}`
+        document.head.appendChild(twConfigScript)
+    }, 2000)
 })()
-
 
 
 export default () => {
     async function tailwindDevtool(name: string) {
-        
+
         if (enabled) {
             (window as any).r8sTailwindInspector.disableTwIcon()
             tailwindStorage.withStorage<{ iconEnabled: boolean }>(s => {

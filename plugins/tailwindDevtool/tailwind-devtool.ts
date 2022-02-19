@@ -1,18 +1,35 @@
 import {RDTPlugin} from "../../redevtools.model";
+import {RDTStorage} from "../../shared/storage.util";
 
-let enabled = true
+const R8S_TAILWIND_STORAGE = "R8S_TAILWIND_STORAGE"
+let tailwindStorage = new RDTStorage(R8S_TAILWIND_STORAGE)
+let enabled = false
+const alreadyPresent = document.querySelector('script[src="//r8s.io/tailwind.js"]')
+if (!alreadyPresent)
+    document.head.appendChild(document.createElement("script")).src = "//r8s.io/tailwind.js"
+
+tailwindStorage.withStorage<{ iconEnabled: boolean }>(s => {
+    if(s.local.iconEnabled)
+        (window as any).r8sTailwindInspector.enableTwIcon()
+})
+
+
 export default () => {
     async function tailwindDevtool(name: string) {
-        const alreadyPresent = document.querySelector('script[src="//r8s.io/tailwind.js"]')
-        if (!alreadyPresent)
-            document.head.appendChild(document.createElement("script")).src = "//r8s.io/tailwind.js"
-        setTimeout(() => {
-            if (enabled)
-                (window as any).r8sTailwindInspector.disableTwIcon()
-            else
-                (window as any).r8sTailwindInspector.enableTwIcon()
-            enabled = !enabled
-        }, 2500)
+        
+        if (enabled) {
+            (window as any).r8sTailwindInspector.disableTwIcon()
+            tailwindStorage.withStorage<{ iconEnabled: boolean }>(s => {
+                s.local.iconEnabled = false
+            })
+        } else {
+            (window as any).r8sTailwindInspector.enableTwIcon()
+            tailwindStorage.withStorage<{ iconEnabled: boolean }>(s => {
+                s.local.iconEnabled = true
+            })
+
+        }
+        enabled = !enabled
     }
 
     tailwindDevtool.version = "1.0"

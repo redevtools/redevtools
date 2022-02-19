@@ -35,8 +35,6 @@ re.json2ts = json2ts()
 re.jwtDecode = jwtDecode()
 re.tailwind = tailwindDevtool()
 
-re.tailwind()
-
 const info = {
     "json2ts": ()=> printPluginInfo((re.json2ts as any).info),
     "jwtDecode": ()=> printPluginInfo((re.jwtDecode as any).info),

@@ -12,11 +12,6 @@ let enabled = false;
         if (s.local.iconEnabled)
             (window as any).r8sTailwindInspector.enableTwIcon()
     })
-    setTimeout(() => {
-        const twConfigScript = document.createElement("script")
-        twConfigScript.text = `tailwind.config = {important: true}`
-        document.head.appendChild(twConfigScript)
-    }, 2000)
 })()
 
 
